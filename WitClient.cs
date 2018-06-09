@@ -3,30 +3,17 @@
     using System;
     using Wit.Net.Models;
     using Wit.Net.Objects;
-    using System.Net.Http;
     using Newtonsoft.Json;
-    using System.Reflection;
     using System.Threading.Tasks;
-    using System.Net.Http.Headers;
-    /// <summary></summary>
-    public class WitClient
+    public class WitClient : WitBase
     {
-        LogSeverity Severity { get; }
-        HttpClient RestClient { get; }
-        /// <summary>Log event for everything.</summary>
-        public event Action<string, Exception> Log;
-        string Version => $"?v={typeof(WitClient).GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
-        ContextObject DefaultContext => new ContextObject { Locale = "en_GB", ReferenceTime = DateTimeOffset.Now, Timezone = "Europe/Londer" };
-        long GenerateSnowflake => Convert.ToInt64(Math.Abs(DateTime.UtcNow.Subtract(new DateTime(2020, 02, 20, 20, 02, 22)).TotalMilliseconds)) + 20200220200222;
-
+        public Entity Entity { get; }
         /// <summary>Initializes a new WitClient. Better to inject it.</summary>
-        public WitClient(WitConfig Config)
+        public WitClient(WitConfig config) : base(config)
         {
-            if (string.IsNullOrWhiteSpace(Config.AccessToken)) throw new Exception($"{nameof(Config.AccessToken)} is required.");
-            RestClient = new HttpClient { BaseAddress = new Uri("https://api.wit.ai") };
-            RestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Config.AccessToken);
-            RestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            Severity = Config.LogSeverity;
+            if (string.IsNullOrWhiteSpace(Config.AccessToken))
+                throw new Exception($"{nameof(Config.AccessToken)} is required.");
+            Entity = new Entity();
         }
 
         /// <summary>Returns the meaning of a sentence.</summary>
@@ -46,39 +33,5 @@
                 $"&n={Sentence.MaxTraits}&verbose={Sentence.Verbose}").ConfigureAwait(false);
             return await ProcessResponse<SentenceObject>(Get).ConfigureAwait(false);
         }
-
-
-
-        /// <summary>Returns a list of all entities.</summary>
-        public async Task<string[]> GetEntitiesAsync()
-            => await ProcessResponse<string[]>(await RestClient.GetAsync($"entities{Version}"));
-
-        /// <summary>Creates a new entity.</summary>
-        /// <param name="Id">ID or name of the requested entity.</param>
-        /// <param name="Description">Short sentence describing this entity.</param>
-        public async Task CreateEntitiyAsync(string Id, string Description)
-            => await RestClient.PostAsync($"entities{Version}", new StringContent(JsonConvert.SerializeObject
-                (new { Id, doc = Description })));
-
-        /// <summary>Returns all the expressions validated for an entity.</summary>
-        /// <param name="Id">Id of the entity.</param>
-        public async Task GetEntityAsync(string Id)
-
-        #region Internal Methods
-        void Logger(string message = null, Exception exception = null)
-        {
-            switch (Severity)
-            {
-                case LogSeverity.EXCEPTIONS: throw exception;
-                case LogSeverity.INFO: Log.Invoke(message, exception); break;
-            }
-        }
-
-        internal async Task<T> ProcessResponse<T>(HttpResponseMessage Message)
-        {
-            if (!Message.IsSuccessStatusCode) Logger(exception: new Exception($"HTTP Error {(int)Message.StatusCode}: {Message.ReasonPhrase}"));
-            return JsonConvert.DeserializeObject<T>(await Message.Content.ReadAsStringAsync().ConfigureAwait(false));
-        }
-        #endregion
     }
 }
