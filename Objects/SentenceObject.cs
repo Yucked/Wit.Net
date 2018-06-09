@@ -21,7 +21,7 @@
     {
         /// <summary></summary>
         [JsonProperty("intent")]
-        public List<Intent> Intent { get; internal set; }
+        public List<Intent> Intent { get; internal set; }        
     }
 
     /// <summary></summary>
