@@ -17,8 +17,8 @@
         #region Privates
         LogSeverity Severity { get; }
         HttpClient RestClient { get; }
-        string Version => typeof(WitClient).GetTypeInfo().Assembly.GetName().Version.ToString(3);
-        ContextObject DefaultContext => new ContextObject { Locale = "en_GB", ReferenceTime = DateTime.UtcNow, Timezone = "Europe/Londer" };
+        string Version => $"?v={typeof(WitClient).GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
+        ContextObject DefaultContext => new ContextObject { Locale = "en_GB", ReferenceTime = DateTimeOffset.Now, Timezone = "Europe/Londer" };
         long GenerateSnowflake => Convert.ToInt64(Math.Abs(DateTime.UtcNow.Subtract(new DateTime(2020, 02, 20, 20, 02, 22)).TotalMilliseconds)) + 20200220200222;
         #endregion
 
@@ -34,19 +34,20 @@
 
 
         /// <summary>
-        /// 
+        /// Returns the meaning of a sentence.
         /// </summary>
-        /// <param name="Sentence"></param>
+        /// <param name="Sentence"><see cref="SentenceModel"/></param>
         /// <returns></returns>
-        public async Task<SentenceObject> GetMeaningAsync(SentenceModel Sentence) 
+        public async Task<SentenceObject> GetMeaningAsync(SentenceModel Sentence)
         {
-            if (Sentence == null) throw new NullReferenceException($"{nameof(Sentence)} can't be null.");
-            if (string.IsNullOrWhiteSpace(Sentence.Message)) Logger($"{nameof(Sentence.Message)} cannot be null/whitespace.");
-            else if (Sentence.Message.Length > 256) Logger($"{nameof(Sentence.Message)} length cannot be greater than 256.");
-            else if (Sentence.MaxTraits > 8) Logger($"{nameof(Sentence.MaxTraits)} cannot be greater than 8.");
-            else if (Sentence.MaxTraits < 0) Logger($"{nameof(Sentence.MaxTraits)} cannot be less than 0.");
+            if (Sentence == null)
+                Logger(exception: new NullReferenceException($"{nameof(Sentence)} can't be null."));
+            else if (string.IsNullOrWhiteSpace(Sentence.Message)) Logger(exception: new Exception($"{nameof(Sentence.Message)} cannot be null/whitespace."));
+            else if (Sentence.Message.Length > 256) Logger(exception: new Exception($"{nameof(Sentence.Message)} length cannot be greater than 256."));
+            else if (Sentence.MaxTraits > 8) Logger(exception: new Exception($"{nameof(Sentence.MaxTraits)} cannot be greater than 8."));
+            else if (Sentence.MaxTraits < 0) Logger(exception: new Exception($"{nameof(Sentence.MaxTraits)} cannot be less than 0."));
             var Get = await RestClient.GetAsync(
-                $"message{Version}&q={Sentence.Message}" +
+                $"message{Version}&q={Sentence.Message}&context={JsonConvert.SerializeObject(Sentence.Context ?? DefaultContext)}" +
                 $"&msg_id={Sentence.MessageId ?? $"{GenerateSnowflake}"}" +
                 $"&thread_id={Sentence.ThreadId ?? $"{GenerateSnowflake}"}" +
                 $"&n={Sentence.MaxTraits}&verbose={Sentence.Verbose}").ConfigureAwait(false);
@@ -58,18 +59,18 @@
 
         #region Internal Methods
 
-        void Logger(string Message)
+        void Logger(string message = null, Exception exception = null)
         {
             switch (Severity)
             {
-                case LogSeverity.EXCEPTIONS: throw new Exception(Message);
-                case LogSeverity.INFO: Log.Invoke(Message, null); break;
+                case LogSeverity.EXCEPTIONS: throw exception;
+                case LogSeverity.INFO: Log.Invoke(message, exception); break;
             }
         }
 
         internal async Task<T> ProcessResponse<T>(HttpResponseMessage Message)
         {
-            if (!Message.IsSuccessStatusCode) Logger($"HTTP Error {(int)Message.StatusCode}: {Message.ReasonPhrase}");
+            if (!Message.IsSuccessStatusCode) Logger(exception: new Exception($"HTTP Error {(int)Message.StatusCode}: {Message.ReasonPhrase}"));
             return JsonConvert.DeserializeObject<T>(await Message.Content.ReadAsStringAsync().ConfigureAwait(false));
         }
         #endregion
