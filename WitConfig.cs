@@ -13,7 +13,7 @@
     {
         /// <summary>Info with silent exceptions if any.</summary>
         INFO,
-        /// <summary>Exceptions Only. No Info.</summary>
+        /// <summary>Will throw exceptions.</summary>
         EXCEPTIONS
     }
 }
