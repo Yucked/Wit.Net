@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Yucked</Authors>
+    <Description>Wrapper for Wit.ai written for .Net applications.</Description>
+    <Copyright>2018 Yucked. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/Yucked/Wit.Net</PackageProjectUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/4723433?s=280&amp;v=4</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Yucked/Wit.Net</RepositoryUrl>
+    <RepositoryType>Open Source</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Wit.Net.xml</DocumentationFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>
