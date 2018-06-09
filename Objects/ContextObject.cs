@@ -5,7 +5,7 @@
     /// <summary>
     ///[Optional] Context is key in natural language. For instance, at the same absolute instant, “today” will be resolved to a different value depending on the timezone of the user.
     /// </summary>
-    internal class ContextObject
+    public class ContextObject
     {
         /// <summary>Locale of the user. it will default to the “parent” language, with no locale-specific customization.<para/>Example: en_GB </summary>
         [JsonProperty("locale")]
