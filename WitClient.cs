@@ -31,7 +31,7 @@
 
         /// <summary>Returns the meaning of a sentence.</summary>
         /// <param name="Sentence"><see cref="SentenceModel"/></param>
-        public async Task<SentenceObject> GetMeaningAsync(SentenceModel Sentence)
+        public async Task<SentenceObject> SentenceMeaningAsync(SentenceModel Sentence)
         {
             if (Sentence == null)
                 Logger(exception: new NullReferenceException($"{nameof(Sentence)} can't be null."));
@@ -49,6 +49,20 @@
 
 
 
+        /// <summary>Returns a list of all entities.</summary>
+        public async Task<string[]> GetEntitiesAsync()
+            => await ProcessResponse<string[]>(await RestClient.GetAsync($"entities{Version}"));
+
+        /// <summary>Creates a new entity.</summary>
+        /// <param name="Id">ID or name of the requested entity.</param>
+        /// <param name="Description">Short sentence describing this entity.</param>
+        public async Task CreateEntitiyAsync(string Id, string Description)
+            => await RestClient.PostAsync($"entities{Version}", new StringContent(JsonConvert.SerializeObject
+                (new { Id, doc = Description })));
+
+        /// <summary>Returns all the expressions validated for an entity.</summary>
+        /// <param name="Id">Id of the entity.</param>
+        public async Task GetEntityAsync(string Id)
 
         #region Internal Methods
         void Logger(string message = null, Exception exception = null)
