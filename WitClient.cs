@@ -11,18 +11,15 @@
     /// <summary></summary>
     public class WitClient
     {
-        /// <summary>Log event for everything.</summary>
-        public event Action<string, Exception> Log;
-
-        #region Privates
         LogSeverity Severity { get; }
         HttpClient RestClient { get; }
+        /// <summary>Log event for everything.</summary>
+        public event Action<string, Exception> Log;
         string Version => $"?v={typeof(WitClient).GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
         ContextObject DefaultContext => new ContextObject { Locale = "en_GB", ReferenceTime = DateTimeOffset.Now, Timezone = "Europe/Londer" };
         long GenerateSnowflake => Convert.ToInt64(Math.Abs(DateTime.UtcNow.Subtract(new DateTime(2020, 02, 20, 20, 02, 22)).TotalMilliseconds)) + 20200220200222;
-        #endregion
 
-        /// <summary></summary>
+        /// <summary>Initializes a new WitClient. Better to inject it.</summary>
         public WitClient(WitConfig Config)
         {
             if (string.IsNullOrWhiteSpace(Config.AccessToken)) throw new Exception($"{nameof(Config.AccessToken)} is required.");
@@ -32,12 +29,8 @@
             Severity = Config.LogSeverity;
         }
 
-
-        /// <summary>
-        /// Returns the meaning of a sentence.
-        /// </summary>
+        /// <summary>Returns the meaning of a sentence.</summary>
         /// <param name="Sentence"><see cref="SentenceModel"/></param>
-        /// <returns></returns>
         public async Task<SentenceObject> GetMeaningAsync(SentenceModel Sentence)
         {
             if (Sentence == null)
@@ -58,7 +51,6 @@
 
 
         #region Internal Methods
-
         void Logger(string message = null, Exception exception = null)
         {
             switch (Severity)
