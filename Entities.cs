@@ -2,8 +2,6 @@
 {
     using System;
     using System.Linq;
-    using Newtonsoft.Json;
-    using System.Net.Http;
     using Wit.Net.Objects;
     using System.Threading.Tasks;
     public class Entities : Base
