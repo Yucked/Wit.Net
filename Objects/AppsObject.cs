@@ -2,7 +2,7 @@
 {
     using System;
     using Newtonsoft.Json;
-    public class AppsModel
+    public class AppsObject
     {
         /// <summary>The name of your app.</summary>
         [JsonProperty("name")]
