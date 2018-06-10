@@ -1,14 +1,13 @@
 ﻿namespace Wit.Net
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using Newtonsoft.Json;
     using Wit.Net.Objects;
     using System.Reflection;
     using System.Threading.Tasks;
     using System.Net.Http.Headers;
-    using System.Net;
-
     public abstract class Base
     {
         internal HttpClient RestClient { get; }
@@ -37,7 +36,11 @@
             return (Math.Abs(BitConverter.ToInt64(Buffer, 0) % (10000000000000 - 10000000000500)) + 10000000000500);
         }
 
-        internal HttpContent CreateContent(object Content) => new StringContent(JsonConvert.SerializeObject(Content));
+        internal HttpContent CreateContent(object Content)
+            => new StringContent(JsonConvert.SerializeObject(Content, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            }));
 
         internal void Process(HttpResponseMessage message, string LogMessage)
         {
