@@ -1,7 +1,7 @@
 ﻿namespace Wit.Net
 {
     /// <summary>Configuration for  Wit client.</summary>
-    public class WitConfig
+    public class Config
     {
         /// <summary>Your server access token.</summary>
         public string AccessToken { get; set; }
