@@ -2,7 +2,7 @@
 {
     public class WitClient
     {
-        public Account Account { get; }
+        public Application Application { get; }
         public Entities Entities { get; }
         public Training Training { get; }
         public Logger Logger => Logger.Logging;
@@ -10,7 +10,7 @@
         public WitClient(Config config)
         {
             Config = config;
-            Account = new Account();
+            Application = new Application();
             Entities = new Entities();
             Training = new Training();
         }
