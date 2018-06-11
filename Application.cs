@@ -62,13 +62,13 @@
         public async Task UpdateAsync(string Id, string Name, Language Language, bool? IsPrivate = null,
             string Timezone = null, string Description = "My new Wit application VIA Wit.Net!")
         {
-            var Put = await RestClient.PutAsync($"apps/{Id}", CreateContent(new
+            var Put = await RestClient.PutAsync($"apps/{Id}", CreateContent(new AppModel
             {
-                name = Name,
-                lang = Language,
-                Private = IsPrivate.Value,
-                timezone = Timezone,
-                desc = Description
+                Name = Name,
+                Description = Description,
+                IsPrivate = IsPrivate.Value,
+                Language = Language.ToString(),
+                Timezone = Timezone
             }));
             Process(Put, $"PUT apps/{Id}");
         }
