@@ -2,10 +2,11 @@
 {
     using System;
     using System.Linq;
+    using Newtonsoft.Json;
     using Wit.Net.Models;
     using Wit.Net.Objects;
-    using System.Threading.Tasks;
     using System.Net.Http;
+    using System.Threading.Tasks;
 
     public class Application : Base
     {
@@ -35,12 +36,17 @@
         /// <param name="Language"></param>
         /// <param name="IsPrivate">Private if “true”</param>
         /// <param name="Description">Short sentence describing your app.</param>
-        public async Task<CreationObject> CreateAsync(string Name, Language Language, bool IsPrivate,
+        public async Task<CreationObject> CreateAsync(string Name, Language Lang, bool IsPrivate,
             string Description = "My new Wit application VIA Wit.Net!")
         {
-            var Content = "{" + string.Format("\"name\": \"{0}\", \"lang\": \"{1}\", \"private\": \"{2}\", \"desc\": \"{3}\"",
-                Name, Language, IsPrivate.ToString().ToLower(), Description) + "}";
-            var Post = await RestClient.PostAsync($"apps{Version}", new StringContent(Content));
+            var Data = new AppModel
+            {
+                Description = Description,
+                IsPrivate = IsPrivate,
+                Language = Lang.ToString(),
+                Name = Name
+            };
+            var Post = await RestClient.PostAsync($"apps", CreateContent(Data));
             return await ProcessAsync<CreationObject>(Post, $"POST /apps");
         }
 
@@ -56,7 +62,7 @@
         public async Task UpdateAsync(string Id, string Name, Language Language, bool? IsPrivate = null,
             string Timezone = null, string Description = "My new Wit application VIA Wit.Net!")
         {
-            var Put = await RestClient.PutAsync($"apps/{Id}{Version}", CreateContent(new
+            var Put = await RestClient.PutAsync($"apps/{Id}", CreateContent(new
             {
                 name = Name,
                 lang = Language,
@@ -72,6 +78,6 @@
         /// </summary>
         /// <param name="Id">The ID of the application.</param>
         public async Task DeleteAsync(string Id)
-            => Process(await RestClient.DeleteAsync($"apps/{Id}{Version}"), $"DELETE /apps/{Id}");
+            => Process(await RestClient.DeleteAsync($"apps/{Id}"), $"DELETE /apps/{Id}");
     }
 }

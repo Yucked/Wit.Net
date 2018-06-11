@@ -10,7 +10,7 @@
         /// <summary>Returns a list of all entities.</summary>
         public async Task<string[]> GetAllAsync()
         {
-            var Get = await RestClient.GetAsync($"entities{Version}");
+            var Get = await RestClient.GetAsync($"entities");
             return await ProcessAsync<string[]>(Get, $"GET /entities");
         }
 
@@ -19,7 +19,7 @@
         /// <param name="Description">Short sentence describing this entity.</param>
         public async Task CreateAsync(string Name, string Description)
         {
-            var Get = await RestClient.PostAsync($"entities{Version}", CreateContent(new
+            var Get = await RestClient.PostAsync($"entities", CreateContent(new
             {
                 Id = Name,
                 doc = Description
@@ -31,7 +31,7 @@
         /// <param name="Name">ID or name of the requested entity..</param>
         public async Task<EntityValuesObject> GetAsync(string Name)
         {
-            var Get = await RestClient.GetAsync($"entities/{Name}{Version}");
+            var Get = await RestClient.GetAsync($"entities/{Name}");
             return await ProcessAsync<EntityValuesObject>(Get, $"GET /entities/{Name}");
         }
 
@@ -49,7 +49,7 @@
             var IsKeyword = Lookups.Any(x => x?.ToLower() == "keywords");
             if (Values.Length != 0 && !IsKeyword)
                 Logger.Logging.Send(exception: new Exception("Values are only allowed if lookup method is keywords."));
-            var Get = await RestClient.PutAsync($"entities/{Id}{Version}", CreateContent(
+            var Get = await RestClient.PutAsync($"entities/{Id}", CreateContent(
               new
               {
                   Id,
@@ -69,7 +69,7 @@
         /// <param name="EntityId">ID or name of the entity.</param>
         /// <param name="RoleId">ID or name of the role associate to the entity.</param>
         public async Task DeleteRoleAsync(string EntityId, string RoleId)
-            => Process(await RestClient.DeleteAsync($"entities/{EntityId}:{RoleId}{Version}"),
+            => Process(await RestClient.DeleteAsync($"entities/{EntityId}:{RoleId}"),
                 $"DELETE /entities/{EntityId}:{RoleId}");
 
         /// <summary>Add a possible value into the list of values for the keyword entity.</summary>
@@ -79,7 +79,7 @@
         {
             if (string.IsNullOrWhiteSpace(Value.Value))
                 Logger.Logging.Send(exception: new Exception($"{nameof(Value.Value)} can't be null."));
-            var Get = await RestClient.PostAsync($"entities/{Id}/values{Version}", CreateContent(Value));
+            var Get = await RestClient.PostAsync($"entities/{Id}/values", CreateContent(Value));
             return await ProcessAsync<KeywordObject>(Get, $"POST /entities/{Id}/values");
         }
 
@@ -87,7 +87,7 @@
         /// <param name="Id">ID or name of the entity</param>
         /// <param name="Value">Id or name of the value.</param>
         public async Task DeleteValueAsync(string Id, string Value)
-            => Process(await RestClient.DeleteAsync($"entities/{Id}/values/{Value}{Version}"),
+            => Process(await RestClient.DeleteAsync($"entities/{Id}/values/{Value}"),
                 $"DELETE /entities/{Id}/values/{Value}");
 
         /// <summary>Create a new expression of the canonical value of the keyword entity</summary>
@@ -99,7 +99,7 @@
         {
             if (Expression.Length > 256)
                 Logger.Logging.Send(exception: new Exception($"{nameof(Expression)} can't be null."));
-            var Get = await RestClient.PostAsync($"entities/{Id}/values/{Value}/expressions{Version}",
+            var Get = await RestClient.PostAsync($"entities/{Id}/values/{Value}/expressions",
                 CreateContent(new { expression = Expression }));
             return await ProcessAsync<KeywordObject>(Get, $"POST /entities/{Id}/values/{Value}/expressions");
         }
