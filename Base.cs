@@ -35,10 +35,8 @@
         }
 
         internal HttpContent CreateContent(object Content)
-            => new StringContent(JsonConvert.SerializeObject(Content, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            }));
+            => new StringContent(JsonConvert.SerializeObject(Content),
+                System.Text.Encoding.UTF8, "application/json");
 
         internal void Process(HttpResponseMessage message, string LogMessage)
         {
