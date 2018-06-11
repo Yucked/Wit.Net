@@ -4,14 +4,15 @@
     using System.Linq;
     using Wit.Net.Objects;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
     public class Entities : Base
     {
         internal Entities() { }
         /// <summary>Returns a list of all entities.</summary>
-        public async Task<string[]> GetAllAsync()
+        public async Task<IEnumerable<string>> GetAllAsync()
         {
             var Get = await RestClient.GetAsync($"entities");
-            return await ProcessAsync<string[]>(Get, $"GET /entities");
+            return await ProcessAsync<IEnumerable<string>>(Get, $"GET /entities");
         }
 
         /// <summary>Creates a new entity.</summary>
@@ -44,7 +45,8 @@
         /// You can add both as well.</param>
         /// <param name="Values">Possible values if this is a keyword entity.</param>
         /// <returns></returns>
-        public async Task UpdateAsync(string Id, string Description = null, string[] Lookups = null, Values[] Values = null)
+        public async Task UpdateAsync(string Id, string Description = null,
+            string[] Lookups = null, Values[] Values = null)
         {
             var IsKeyword = Lookups.Any(x => x?.ToLower() == "keywords");
             if (Values.Length != 0 && !IsKeyword)

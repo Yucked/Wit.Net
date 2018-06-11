@@ -1,6 +1,7 @@
 ﻿namespace Wit.Net.Objects
 {
     using Newtonsoft.Json;
+    using System.Collections.Generic;
     public class KeywordObject
     {
         [JsonProperty("builtin")]
@@ -14,7 +15,7 @@
         [JsonProperty("lang")]
         public string Language { get; internal set; }
         [JsonProperty("lookups")]
-        public string[] Lookups { get; internal set; }
+        public List<string> Lookups { get; internal set; }
         [JsonProperty("name")]
         public string Name { get; internal set; }
     }

@@ -1,6 +1,7 @@
 ﻿namespace Wit.Net.Objects
 {
     using Newtonsoft.Json;
+    using System.Collections.Generic;
     public class EntityValuesObject
     {
         [JsonProperty("builtin")]
@@ -16,13 +17,14 @@
         [JsonProperty("name")]
         public string Name { get; internal set; }
         [JsonProperty("values")]
-        public Values[] Values { get; internal set; }
+        public List<Values> Values { get; internal set; }
     }
+
     public partial class Values
     {
         [JsonProperty("value")]
         public string Value { get; internal set; }
         [JsonProperty("expressions")]
-        public string[] Expressions { get; internal set; }
+        public List<string> Expressions { get; internal set; }
     }
 }
