@@ -1,13 +1,9 @@
 ﻿namespace Wit.Net
 {
     using System;
-    using System.Linq;
-    using Newtonsoft.Json;
     using Wit.Net.Models;
     using Wit.Net.Objects;
-    using System.Net.Http;
     using System.Threading.Tasks;
-
     public class Application : Base
     {
         internal Application() { }
