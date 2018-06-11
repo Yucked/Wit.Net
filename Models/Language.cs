@@ -3,9 +3,9 @@
     public enum Language
     {
         /// <summary>English</summary>
-        ENG,
+        EN,
         /// <summary>French</summary>
-        FRE,
+        FR,
         /// <summary>German</summary>
         GEM,
         /// <summary>Italian</summary>
