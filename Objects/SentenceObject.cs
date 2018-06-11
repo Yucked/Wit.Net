@@ -19,55 +19,49 @@
     /// <summary> Provides a list of all intents</summary>
     public partial class Entities
     {
-        [JsonProperty("metric")]
-        public List<Metric> Metric { get; set; }
-        [JsonProperty("datetime")]
-        public List<Datetime> Datetime { get; set; }
         [JsonProperty("intent")]
         public List<Intent> Intent { get; internal set; }
+        [JsonProperty("metric")]
+        public List<Metric> Metric { get; internal set; }
+        [JsonProperty("datetime")]
+        public List<Datetime> Datetime { get; internal set; }
     }
 
 
     public partial class Intent
     {
-
-        [JsonProperty("confidence")]
-        public double Confidence { get; internal set; }
-
+        [JsonProperty("Unit")]
+        public string Unit { get; internal set; }
         [JsonProperty("value")]
         public string Value { get; internal set; }
-
-        [JsonProperty("Unit"]
-        public string Unit { get; internal set; }
+        [JsonProperty("confidence")]
+        public double Confidence { get; internal set; }
     }
 
     public partial class Datetime
     {
         [JsonProperty("value")]
-        public Value Value { get; set; }
-
+        public Value Value { get; internal set; }
         [JsonProperty("confidence")]
-        public long? Confidence { get; set; }
+        public long? Confidence { get; internal set; }
     }
 
     public partial class Value
     {
-        [JsonProperty("from")]
-        public DateTimeOffset? From { get; set; }
         [JsonProperty("to")]
-        public DateTimeOffset? To { get; set; }
+        public DateTimeOffset? To { get; internal set; }
+        [JsonProperty("from")]
+        public DateTimeOffset? From { get; internal set; }
     }
 
     public partial class Metric
     {
-        [JsonProperty("metadata")]
-        public string Metadata { get; set; }
-
         [JsonProperty("value")]
-        public string Value { get; set; }
-
+        public string Value { get; internal set; }
+        [JsonProperty("metadata")]
+        public string Metadata { get; internal set; }
         [JsonProperty("confidence")]
-        public double? Confidence { get; set; }
+        public double? Confidence { get; internal set; }
     }
 
     public partial class Stats
