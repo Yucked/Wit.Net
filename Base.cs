@@ -18,10 +18,8 @@
             RestClient = new HttpClient { BaseAddress = new Uri("https://api.wit.ai") };
             RestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", WitClient.Config.AccessToken);
             RestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            RestClient.DefaultRequestHeaders.Add("Accept", "application/vnd.wit.20200202+json");
         }
-
-        internal string Version
-            => $"?v={typeof(WitClient).GetTypeInfo().Assembly.GetName().Version.ToString(3)}";
 
         internal ContextObject DefaultContext
             => new ContextObject { Locale = "en_GB", ReferenceTime = DateTimeOffset.Now, Timezone = "Europe/Londer" };
