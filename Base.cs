@@ -56,7 +56,8 @@
             else
             {
                 Logger.Logging.Send(LogMessage);
-                return JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync(),
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             }
         }
 
