@@ -1,7 +1,6 @@
 ﻿namespace Wit.Net.Models
 {
     using Wit.Net.Objects;
-    /// <summary></summary>
     public class SentenceModel
     {
         /// <summary>User’s query. Length must be  between 0 and 256</summary>

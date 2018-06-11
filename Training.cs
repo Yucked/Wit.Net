@@ -15,8 +15,6 @@
         /// <param name="Sentence"><see cref="SentenceModel"/></param>
         public async Task<SentenceObject> SentenceMeaningAsync(SentenceModel Sentence)
         {
-            var v = RestClient;
-            var z = v.BaseAddress;
             if (Sentence == null)
                 Logger.Logging.Send(exception: new NullReferenceException($"{nameof(Sentence)} can't be null."));
             else if (string.IsNullOrWhiteSpace(Sentence.Message))
