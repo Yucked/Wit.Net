@@ -11,5 +11,7 @@
         public string Language { get; set; }
         [JsonProperty("desc")]
         public string Description { get; set; }
+        [JsonProperty("timezone", NullValueHandling = NullValueHandling.Ignore)]
+        public string Timezone { get; set; }
     }
 }
