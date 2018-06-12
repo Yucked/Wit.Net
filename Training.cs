@@ -14,7 +14,7 @@
 
         /// <summary>Returns the meaning of a sentence.</summary>
         /// <param name="Sentence"><see cref="SentenceModel"/></param>
-        public async Task<SentenceObject> SentenceMeaningAsync(SentenceModel Sentence)
+        public async Task<MeaningObject> SentenceMeaningAsync(SentenceModel Sentence)
         {
             if (Sentence == null)
                 Logger.Logging.Send(exception: new NullReferenceException($"{nameof(Sentence)} can't be null."));
@@ -31,7 +31,7 @@
             var Get = await RestClient.GetAsync(
                 $"message?q={Sentence.Message}&context={JsonConvert.SerializeObject(Sentence.Context ?? DefaultContext)}" +
                 $"&msg_id={MessageId}&thread_id={ThreadId}&n={Sentence.MaxTraits}&verbose={Sentence.Verbose}").ConfigureAwait(false);
-            return await ProcessAsync<SentenceObject>(Get, $"GET | Message Id {MessageId} : Thread Id {ThreadId}");
+            return await ProcessAsync<MeaningObject>(Get, $"GET | Message Id {MessageId} : Thread Id {ThreadId}");
         }
 
         /// <summary>Validate samples (sentence + entities annotations) to train your app programmatically.</summary>
