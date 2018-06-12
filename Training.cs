@@ -37,9 +37,14 @@
         public async Task DeleteSampleAsync(string[] Texts)
         {
             var Samples = new List<object>(Texts.Length);
-            foreach (var Text in Texts)
-                Samples.Add(new { text = Text });
-            //Process(await RestClient.DeleteAsync("samples"))
+            foreach (var Text in Texts) Samples.Add(new { text = Text });
+            var Request = new HttpRequestMessage
+            {
+                Content = CreateContent(Samples),
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri("samples")
+            };
+            Process(await RestClient.SendAsync(Request), "DELETE /samples");
         }
     }
 }
