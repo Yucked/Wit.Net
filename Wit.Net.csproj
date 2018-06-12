@@ -9,6 +9,7 @@
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/4723433?s=280&amp;v=4</PackageIconUrl>
     <RepositoryUrl>https://github.com/Yucked/Wit.Net</RepositoryUrl>
     <RepositoryType>Open Source</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
