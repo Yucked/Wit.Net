@@ -29,7 +29,7 @@
         /// Creates a new app for an existing user.
         /// </summary>
         /// <param name="Name">Name of the new app.</param>
-        /// <param name="Language"></param>
+        /// <param name="Lang"></param>
         /// <param name="IsPrivate">Private if “true”</param>
         /// <param name="Description">Short sentence describing your app.</param>
         public async Task<CreationObject> CreateAsync(string Name, Language Lang, bool IsPrivate,
@@ -51,20 +51,20 @@
         /// </summary>
         /// <param name="Id">The ID of the application.</param>
         /// <param name="Name">Name of the new app.</param>
-        /// <param name="Language">Language code</param>
+        /// <param name="Lang">Language code</param>
         /// <param name="IsPrivate">Private if true</param>
         /// <param name="Timezone">Default timezone of the app. Must be a canonical ID. Example: “America/Los_Angeles”</param>
         /// <param name="Description">Short sentence describing your app</param>
-        public async Task UpdateAsync(string Id, string Name, Language Language, bool? IsPrivate = null,
+        public async Task UpdateAsync(string Id, string Name = null, Language? Lang = Language.EN, bool? IsPrivate = null,
             string Timezone = null, string Description = "My new Wit application VIA Wit.Net!")
         {
             var Put = await RestClient.PutAsync($"apps/{Id}", CreateContent(new AppModel
             {
                 Name = Name,
+                Timezone = Timezone,
                 Description = Description,
                 IsPrivate = IsPrivate.Value,
-                Language = Language.ToString(),
-                Timezone = Timezone
+                Language = Lang.Value.ToString(),
             }));
             Process(Put, $"PUT apps/{Id}");
         }

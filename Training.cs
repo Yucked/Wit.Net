@@ -7,6 +7,7 @@
     using System.Net.Http;
     using Wit.Net.Objects;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
     public class Training : Base
     {
         internal Training() { }
@@ -25,13 +26,21 @@
                 Logger.Logging.Send(exception: new Exception($"{nameof(Sentence.MaxTraits)} cannot be greater than 8."));
             else if (Sentence.MaxTraits < 0)
                 Logger.Logging.Send(exception: new Exception($"{nameof(Sentence.MaxTraits)} cannot be less than 0."));
-            var ThreadId = Sentence.ThreadId ?? $"{SnowFlake}";
-            var MessageId = Sentence.MessageId ?? $"{SnowFlake}";
+            var ThreadId = Sentence.ThreadId ?? SnowFlake;
+            var MessageId = Sentence.MessageId ?? SnowFlake;
             //var Get = await RestClient.GetAsync(
             //    $"message&q={Sentence.Message}&context={JsonConvert.SerializeObject(Sentence.Context ?? DefaultContext)}" +
             //    $"&msg_id={MessageId}&thread_id={ThreadId}&n={Sentence.MaxTraits}&verbose={Sentence.Verbose}").ConfigureAwait(false);
             var Get = await RestClient.GetAsync($"message/?v=20180102&q={Sentence.Message}");
             return await ProcessAsync<SentenceObject>(Get, $"GET | Message Id {MessageId} : Thread Id {ThreadId}");
+        }
+
+        public async Task DeleteSampleAsync(string[] Texts)
+        {
+            var Samples = new List<object>(Texts.Length);
+            foreach (var Text in Texts)
+                Samples.Add(new { text = Text });
+            //Process(await RestClient.DeleteAsync("samples"))
         }
     }
 }
