@@ -12,12 +12,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://gist.github.com/Yucked/63dbf7914e2ab30e656d45cf5c05b50f</PackageLicenseUrl>
+    <PackageTags>Wit.ai, Wit, WitSharp, Yucked</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Wit.Net.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\WitSharp.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
     <LangVersion>latest</LangVersion>
-    <NoWarn>1701;1702;1591;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
