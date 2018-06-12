@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     public class KeywordObject
     {
+        internal KeywordObject() { }
         [JsonProperty("builtin")]
         public bool Builtin { get; internal set; }
         [JsonProperty("doc")]

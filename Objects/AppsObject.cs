@@ -4,6 +4,7 @@
     using Newtonsoft.Json;
     public class AppsObject
     {
+        internal AppsObject() { }
         /// <summary>The name of your app.</summary>
         [JsonProperty("name")]
         public string Name { get; internal set; }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     public class EntityValuesObject
     {
+        internal EntityValuesObject() { }
         [JsonProperty("builtin")]
         public bool Builtin { get; internal set; }
         [JsonProperty("doc")]
@@ -22,6 +23,7 @@
 
     public partial class Values
     {
+        internal Values() { }
         [JsonProperty("value")]
         public string Value { get; internal set; }
         [JsonProperty("expressions")]

@@ -3,6 +3,7 @@
     using Newtonsoft.Json;
     public class CreationObject
     {
+        internal CreationObject() { }
         [JsonProperty("access_token")]
         public string AccessToken { get; internal set; }
         [JsonProperty("app_id")]
