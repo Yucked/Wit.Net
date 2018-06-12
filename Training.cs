@@ -1,11 +1,11 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     using System;
     using System.Linq;
-    using Wit.Net.Models;
+    using WitSharp.Models;
     using Newtonsoft.Json;
     using System.Net.Http;
-    using Wit.Net.Objects;
+    using WitSharp.Objects;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     public class Training : Base

@@ -1,4 +1,4 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     /// <summary>Configuration for  Wit client.</summary>
     public class Config

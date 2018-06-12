@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Yucked</Authors>
-    <Description>Wrapper for Wit.ai written for .Net applications.</Description>
+    <Description>⚗️ - A .Net wrapper for https://wit.ai API.</Description>
     <Copyright>2018 Yucked. All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/Yucked/Wit.Net</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Yucked/WitSharp</PackageProjectUrl>
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/4723433?s=280&amp;v=4</PackageIconUrl>
-    <RepositoryUrl>https://github.com/Yucked/Wit.Net</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Yucked/WitSharp</RepositoryUrl>
     <RepositoryType>Open Source</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://gist.github.com/Yucked/63dbf7914e2ab30e656d45cf5c05b50f</PackageLicenseUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

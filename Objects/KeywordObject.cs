@@ -1,4 +1,4 @@
-﻿namespace Wit.Net.Objects
+﻿namespace WitSharp.Objects
 {
     using Newtonsoft.Json;
     using System.Collections.Generic;

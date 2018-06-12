@@ -1,4 +1,4 @@
-﻿namespace Wit.Net.Models
+﻿namespace WitSharp.Models
 {
     using Newtonsoft.Json;
     public class EntityModel

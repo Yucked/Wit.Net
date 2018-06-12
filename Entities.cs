@@ -1,8 +1,8 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     using System;
     using System.Linq;
-    using Wit.Net.Objects;
+    using WitSharp.Objects;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     public class Entities : Base

@@ -1,4 +1,4 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     public class WitClient
     {

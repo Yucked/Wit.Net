@@ -1,8 +1,8 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     using System;
-    using Wit.Net.Models;
-    using Wit.Net.Objects;
+    using WitSharp.Models;
+    using WitSharp.Objects;
     using System.Threading.Tasks;
     public class Application : Base
     {
@@ -33,7 +33,7 @@
         /// <param name="IsPrivate">Private if “true”</param>
         /// <param name="Description">Short sentence describing your app.</param>
         public async Task<CreationObject> CreateAsync(string Name, Language Lang, bool IsPrivate,
-            string Description = "My new Wit application VIA Wit.Net!")
+            string Description = "My new Wit application VIA WitSharp!")
         {
             var Data = new AppModel
             {
@@ -56,7 +56,7 @@
         /// <param name="Timezone">Default timezone of the app. Must be a canonical ID. Example: “America/Los_Angeles”</param>
         /// <param name="Description">Short sentence describing your app</param>
         public async Task UpdateAsync(string Id, string Name = null, Language? Lang = Language.EN, bool? IsPrivate = null,
-            string Timezone = null, string Description = "My new Wit application VIA Wit.Net!")
+            string Timezone = null, string Description = "My new Wit application VIA WitSharp!")
         {
             var Put = await RestClient.PutAsync($"apps/{Id}", CreateContent(new AppModel
             {

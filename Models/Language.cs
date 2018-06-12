@@ -1,4 +1,4 @@
-﻿namespace Wit.Net.Models
+﻿namespace WitSharp.Models
 {
     public enum Language
     {

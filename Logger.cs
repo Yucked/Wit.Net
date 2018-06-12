@@ -1,4 +1,4 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     using System;
     public sealed class Logger

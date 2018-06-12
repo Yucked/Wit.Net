@@ -1,10 +1,10 @@
-﻿namespace Wit.Net
+﻿namespace WitSharp
 {
     using System;
     using System.Net;
     using System.Net.Http;
     using Newtonsoft.Json;
-    using Wit.Net.Objects;
+    using WitSharp.Objects;
     using System.Threading.Tasks;
     using System.Net.Http.Headers;
     public abstract class Base
