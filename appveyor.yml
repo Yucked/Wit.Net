@@ -1,0 +1,25 @@
+version: W0.{build}
+skip_tags: true
+image: Visual Studio 2017 Preview
+shallow_clone: true
+clone_folder: C:\Projects\Wit.Net
+skip_commits:
+  message: /Update/
+nuget:
+  account_feed: true
+  project_feed: true
+before_build:
+- cmd: dotnet restore
+build:
+  verbosity: minimal
+after_build:
+- cmd: dotnet build
+artifacts:
+- path: '**\*.nupkg'
+  name: Wit.Net
+deploy:
+- provider: NuGet
+  server: https://www.nuget.org/api/v2/package
+  api_key:
+    secure: RZl7MYTdc+aWbbKQqhgz66mxqkm01YUtxAAnyu/RQ+aD091J3ak/Y3XjwUfJw+kP
+  artifact: Wit.Net
