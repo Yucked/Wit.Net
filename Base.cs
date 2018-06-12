@@ -5,7 +5,6 @@
     using System.Net.Http;
     using Newtonsoft.Json;
     using Wit.Net.Objects;
-    using System.Reflection;
     using System.Threading.Tasks;
     using System.Net.Http.Headers;
     public abstract class Base
@@ -18,20 +17,22 @@
             RestClient = new HttpClient { BaseAddress = new Uri("https://api.wit.ai") };
             RestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", WitClient.Config.AccessToken);
             RestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            RestClient.DefaultRequestHeaders.Add("Accept", "application/vnd.wit.20200202+json");
+            RestClient.DefaultRequestHeaders.Add("Accept", "application/vnd.wit.20200220+json");
         }
 
         internal ContextObject DefaultContext
             => new ContextObject { Locale = "en_GB", ReferenceTime = DateTimeOffset.Now, Timezone = "Europe/Londer" };
 
-        internal long SnowFlake => GenerateRandom();
-
-        long GenerateRandom()
+        internal string SnowFlake
         {
-            var Buffer = new byte[8];
-            var Random = new Random(Guid.NewGuid().GetHashCode());
-            Random.NextBytes(Buffer);
-            return (Math.Abs(BitConverter.ToInt64(Buffer, 0) % (10000000000000 - 10000000000500)) + 10000000000500);
+            get
+            {
+                var Random = new Random(Guid.NewGuid().GetHashCode());
+                var Date = new DateTime(2020, 02, 20, 06, 06, 06);
+                var Buffer = new byte[(int)Math.Round(Math.Log(Math.Sqrt(Date.Ticks)))];
+                Random.NextBytes(Buffer);
+                return $"X0-{Math.Abs((decimal)BitConverter.ToUInt64(Buffer, 0)).ToString().Substring(0, 12)}";
+            }
         }
 
         internal HttpContent CreateContent(object Content)
