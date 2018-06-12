@@ -21,5 +21,5 @@ deploy:
 - provider: NuGet
   server: https://www.nuget.org/api/v2/package
   api_key:
-    secure: RZl7MYTdc+aWbbKQqhgz66mxqkm01YUtxAAnyu/RQ+aD091J3ak/Y3XjwUfJw+kP
+    secure: iZ4sXMiLBYQi2UHPlGgqPvQKMgB8oYlfsOuckZzQ4Zm9GEcdpkRVLNabwfHt0AL9
   artifact: Wit.Net
