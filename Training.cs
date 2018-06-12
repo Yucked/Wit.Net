@@ -34,6 +34,27 @@
             return await ProcessAsync<SentenceObject>(Get, $"GET | Message Id {MessageId} : Thread Id {ThreadId}");
         }
 
+        /// <summary>Validate samples (sentence + entities annotations) to train your app programmatically.</summary>
+        /// <param name="Text">The text (sentence) you want your app to understand.</param>
+        /// <param name="Entities">The list of entities appearing in this sentence, 
+        /// that you want your app to extract once it is trained.</param>
+        public async Task ValidateSamplesAsync(string Text, EntityModel[] Entities)
+        {
+            if (string.IsNullOrWhiteSpace(Text) || Entities.Length == 0)
+            {
+                Logger.Logging.Send(exception: new Exception($"{nameof(Text)} or {nameof(Entities)} can't be null or empty."));
+                return;
+            }
+            var Post = await RestClient.PostAsync("samples", CreateContent(new
+            {
+                text = Text,
+                entities = Entities
+            }));
+            Process(Post, "POST /samples");
+        }
+
+        /// <summary>Delete validated samples from your app</summary>
+        /// <param name="Texts">The text of the sample you would like deleted.</param>
         public async Task DeleteSampleAsync(string[] Texts)
         {
             var Samples = new List<object>(Texts.Length);

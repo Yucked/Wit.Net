@@ -6,7 +6,7 @@
         internal EntityModel() { }
         /// <summary>
         /// The entity name. This can be the name of an entity you created, or a builtin entity. i.e food or wit$on_off<para/>
-        /// Entity must have been created previously. See: <see cref="Entities.CreateAsync(string, string)"./>
+        /// Entity must have been created previously. See: <see cref="Entities.CreateAsync(string, string)"/>
         /// </summary>
         [JsonProperty("entity")]
         public string Entity { get; set; }
