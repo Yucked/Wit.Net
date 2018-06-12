@@ -28,10 +28,9 @@
                 Logger.Logging.Send(exception: new Exception($"{nameof(Sentence.MaxTraits)} cannot be less than 0."));
             var ThreadId = Sentence.ThreadId ?? SnowFlake;
             var MessageId = Sentence.MessageId ?? SnowFlake;
-            //var Get = await RestClient.GetAsync(
-            //    $"message&q={Sentence.Message}&context={JsonConvert.SerializeObject(Sentence.Context ?? DefaultContext)}" +
-            //    $"&msg_id={MessageId}&thread_id={ThreadId}&n={Sentence.MaxTraits}&verbose={Sentence.Verbose}").ConfigureAwait(false);
-            var Get = await RestClient.GetAsync($"message/?v=20180102&q={Sentence.Message}");
+            var Get = await RestClient.GetAsync(
+                $"message?q={Sentence.Message}&context={JsonConvert.SerializeObject(Sentence.Context ?? DefaultContext)}" +
+                $"&msg_id={MessageId}&thread_id={ThreadId}&n={Sentence.MaxTraits}&verbose={Sentence.Verbose}").ConfigureAwait(false);
             return await ProcessAsync<SentenceObject>(Get, $"GET | Message Id {MessageId} : Thread Id {ThreadId}");
         }
 
