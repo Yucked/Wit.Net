@@ -24,9 +24,21 @@
         [JsonProperty("intent")]
         public List<Intent> Intent { get; internal set; }
         [JsonProperty("metric")]
-        public List<WitMetric> Metric { get; internal set; }
+        public List<Metric> Metric { get; internal set; }
         [JsonProperty("datetime")]
-        public List<WitDatetime> Datetime { get; internal set; }
+        public List<Datetime> Datetime { get; set; }
+        [JsonProperty("amount_of_money")]
+        public List<AmountOfMoney> AmountOfMoney { get; set; }
+        [JsonProperty("url")]
+        public List<Url> Url { get; set; }
+        [JsonProperty("distance")]
+        public List<Distance> Distance { get; set; }
+        [JsonProperty("duration")]
+        public List<Duration> Duration { get; set; }
+        [JsonProperty("quantity")]
+        public List<Distance> Quantity { get; set; }
+        [JsonProperty("volume")]
+        public List<Distance> Volume { get; set; }
     }
 
 
@@ -41,33 +53,187 @@
         public double Confidence { get; internal set; }
     }
 
-    public partial class WitDatetime
+    public partial class Metric
     {
-        internal WitDatetime() { }
-        [JsonProperty("value")]
-        public Value Value { get; internal set; }
-        [JsonProperty("confidence")]
-        public long? Confidence { get; internal set; }
-    }
-
-    public partial class Value
-    {
-        internal Value() { }
-        [JsonProperty("to")]
-        public DateTimeOffset? To { get; internal set; }
-        [JsonProperty("from")]
-        public DateTimeOffset? From { get; internal set; }
-    }
-
-    public partial class WitMetric
-    {
-        internal WitMetric() { }
+        internal Metric() { }
         [JsonProperty("value")]
         public string Value { get; internal set; }
         [JsonProperty("metadata")]
         public string Metadata { get; internal set; }
         [JsonProperty("confidence")]
         public double? Confidence { get; internal set; }
+    }
+
+    public partial class AmountOfMoney
+    {
+        [JsonProperty("confidence")]
+        public int Confidence { get; set; }
+        [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Value { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("unit", NullValueHandling = NullValueHandling.Ignore)]
+        public string Unit { get; set; }
+        [JsonProperty("_entity", NullValueHandling = NullValueHandling.Ignore)]
+        public string Entity { get; set; }
+        [JsonProperty("_body")]
+        public string Body { get; set; }
+        [JsonProperty("_start", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Start { get; set; }
+        [JsonProperty("_end")]
+        public int End { get; set; }
+        [JsonProperty("to", NullValueHandling = NullValueHandling.Ignore)]
+        public ToClass To { get; set; }
+        [JsonProperty("from", NullValueHandling = NullValueHandling.Ignore)]
+        public ToClass From { get; set; }
+        [JsonProperty("_entit\ny", NullValueHandling = NullValueHandling.Ignore)]
+        public string EntitY { get; set; }
+        [JsonProperty("_sta\nrt", NullValueHandling = NullValueHandling.Ignore)]
+        public int? StaRt { get; set; }
+    }
+
+    public partial class ToClass
+    {
+        [JsonProperty("value")]
+        public int Value { get; set; }
+        [JsonProperty("unit")]
+        public string Unit { get; set; }
+    }
+
+    public partial class Datetime
+    {
+        [JsonProperty("confidence")]
+        public double Confidence { get; set; }
+        [JsonProperty("values")]
+        public List<Value> Values { get; set; }
+        [JsonProperty("valu\u000d\ne", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? ValuE { get; set; }
+        [JsonProperty("grain", NullValueHandling = NullValueHandling.Ignore)]
+        public string Grain { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("_entity")]
+        public string Entity { get; set; }
+        [JsonProperty("_body")]
+        public string Body { get; set; }
+        [JsonProperty("_start")]
+        public int Start { get; set; }
+        [JsonProperty("_end")]
+        public int End { get; set; }
+        [JsonProperty("to", NullValueHandling = NullValueHandling.Ignore)]
+        public DatetimeTo To { get; set; }
+        [JsonProperty("from", NullValueHandling = NullValueHandling.Ignore)]
+        public DatetimeFrom From { get; set; }
+    }
+
+    public partial class DatetimeFrom
+    {
+        [JsonProperty("value")]
+        public string Value { get; set; }
+        [JsonProperty("grain")]
+        public string Grain { get; set; }
+    }
+
+    public partial class DatetimeTo
+    {
+        [JsonProperty("value")]
+        public DateTimeOffset Value { get; set; }
+        [JsonProperty("gr\u000d\nain")]
+        public string GrAin { get; set; }
+    }
+
+    public partial class Value
+    {
+        [JsonProperty("\u000d\nvalue", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? ValueValue { get; set; }
+        [JsonProperty("grain", NullValueHandling = NullValueHandling.Ignore)]
+        public string Grain { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? PurpleValue { get; set; }
+        [JsonProperty("to", NullValueHandling = NullValueHandling.Ignore)]
+        public ValueTo To { get; set; }
+        [JsonProperty("from", NullValueHandling = NullValueHandling.Ignore)]
+        public DatetimeFrom From { get; set; }
+    }
+
+    public partial class ValueTo
+    {
+        [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? Value { get; set; }
+        [JsonProperty("\u000d\ngrain", NullValueHandling = NullValueHandling.Ignore)]
+        public string Grain { get; set; }
+        [JsonProperty("valu\u000d\ne", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTimeOffset? ValuE { get; set; }
+        [JsonProperty("grain", NullValueHandling = NullValueHandling.Ignore)]
+        public string ToGrain { get; set; }
+    }
+
+    public partial class Distance
+    {
+        [JsonProperty("confidence")]
+        public double Confidence { get; set; }
+        [JsonProperty("value")]
+        public int Value { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("u\u000d\nnit", NullValueHandling = NullValueHandling.Ignore)]
+        public string UNit { get; set; }
+        [JsonProperty("_entity")]
+        public string Entity { get; set; }
+        [JsonProperty("_body")]
+        public string Body { get; set; }
+        [JsonProperty("_start")]
+        public int Start { get; set; }
+        [JsonProperty("_end")]
+        public int End { get; set; }
+        [JsonProperty("product", NullValueHandling = NullValueHandling.Ignore)]
+        public string Product { get; set; }
+        [JsonProperty("unit", NullValueHandling = NullValueHandling.Ignore)]
+        public string Unit { get; set; }
+    }
+
+    public partial class Duration
+    {
+        [JsonProperty("confidence")]
+        public double Confidence { get; set; }
+        [JsonProperty("value")]
+        public int Value { get; set; }
+        [JsonProperty("hour")]
+        public int Hour { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        [JsonProperty("unit")]
+        public string Unit { get; set; }
+        [JsonProperty("normalized")]
+        public ToClass Normalized { get; set; }
+        [JsonProperty("_entity")]
+        public string Entity { get; set; }
+        [JsonProperty("_body")]
+        public string Body { get; set; }
+        [JsonProperty("_start")]
+        public int Start { get; set; }
+        [JsonProperty("_end")]
+        public int End { get; set; }
+    }
+
+    public partial class Url
+    {
+        [JsonProperty("confidence")]
+        public int Confidence { get; set; }
+        [JsonProperty("domain")]
+        public string Domain { get; set; }
+        [JsonProperty("value")]
+        public string Value { get; set; }
+        [JsonProperty("_entity")]
+        public string Entity { get; set; }
+        [JsonProperty("_body")]
+        public string Body { get; set; }
+        [JsonProperty("_start")]
+        public int Start { get; set; }
+        [JsonProperty("_end")]
+        public int End { get; set; }
     }
 
     public partial class Stats
