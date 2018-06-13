@@ -1,8 +1,6 @@
-version: W0.{build}
-skip_tags: true
+version: YW.{build}
 image: Visual Studio 2017 Preview
-shallow_clone: true
-clone_folder: C:\Projects\Wit.Net
+clone_folder: C:\Projects\WitSharp
 skip_commits:
   message: /Update/
 nuget:
@@ -16,10 +14,10 @@ after_build:
 - cmd: dotnet build
 artifacts:
 - path: '**\*.nupkg'
-  name: Wit.Net
+  name: WitSharp
 deploy:
 - provider: NuGet
   server: https://www.nuget.org/api/v2/package
   api_key:
     secure: iZ4sXMiLBYQi2UHPlGgqPvQKMgB8oYlfsOuckZzQ4Zm9GEcdpkRVLNabwfHt0AL9
-  artifact: Wit.Net
+  artifact: WitSharp
