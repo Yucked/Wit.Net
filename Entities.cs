@@ -1,117 +1,109 @@
-﻿namespace WitSharp
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using WitSharp.Objects;
+
+namespace WitSharp
 {
-    using System;
-    using System.Linq;
-    using WitSharp.Objects;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
     public class Entities : Base
     {
         internal Entities() { }
         /// <summary>Returns a list of all entities.</summary>
         public async Task<IEnumerable<string>> GetAllAsync()
-        {
-            var Get = await RestClient.GetAsync($"entities");
-            return await ProcessAsync<IEnumerable<string>>(Get, $"GET /entities");
-        }
-
+            => await ProcessAsync<IEnumerable<string>>(await RestClient.GetAsync("entities"));
+        
         /// <summary>Creates a new entity.</summary>
-        /// <param name="Name">ID or name of the requested entity.</param>
-        /// <param name="Description">Short sentence describing this entity.</param>
-        public async Task CreateAsync(string Name, string Description)
+        /// <param name="name">ID or name of the requested entity.</param>
+        /// <param name="description">Short sentence describing this entity.</param>
+        public async Task CreateAsync(string name, string description)
         {
-            var Get = await RestClient.PostAsync($"entities", CreateContent(new
+            var get = await RestClient.PostAsync("entities", CreateContent(new
             {
-                Id = Name,
-                doc = Description
+                Id = name,
+                doc = description
             }));
-            Process(Get, $"POST /entities");
+            Process(get);
         }
 
         /// <summary>Returns all the expressions validated for an entity.</summary>
-        /// <param name="Name">ID or name of the requested entity..</param>
-        public async Task<EntityValuesObject> GetAsync(string Name)
-        {
-            var Get = await RestClient.GetAsync($"entities/{Name}");
-            return await ProcessAsync<EntityValuesObject>(Get, $"GET /entities/{Name}");
-        }
+        /// <param name="name">ID or name of the requested entity..</param>
+        public async Task<EntityValuesObject> GetAsync(string name)
+            => await ProcessAsync<EntityValuesObject>(await RestClient.GetAsync($"entities/{name}"));        
 
         /// <summary>
         /// Updates an entity.
         /// </summary>
-        /// <param name="Id">ID or name of the  entity.</param>
-        /// <param name="Description">Short sentence describing this entity.</param>
-        /// <param name="Lookups">Short sentence describing this entity. Current lookup strategies are: free_text, keywords. 
+        /// <param name="id">ID or name of the  entity.</param>
+        /// <param name="description">Short sentence describing this entity.</param>
+        /// <param name="lookups">Short sentence describing this entity. Current lookup strategies are: free_text, keywords. 
         /// You can add both as well.</param>
-        /// <param name="Values">Possible values if this is a keyword entity.</param>
+        /// <param name="values">Possible values if this is a keyword entity.</param>
         /// <returns></returns>
-        public async Task UpdateAsync(string Id, string Description = null,
-            string[] Lookups = null, Values[] Values = null)
+        public async Task UpdateAsync(string id, string description = null,
+            string[] lookups = null, Values[] values = null)
         {
-            var IsKeyword = Lookups.Any(x => x?.ToLower() == "keywords");
-            if (Values.Length != 0 && !IsKeyword)
-                Logger.Logging.Send(exception: new Exception("Values are only allowed if lookup method is keywords."));
-            var Get = await RestClient.PutAsync($"entities/{Id}", CreateContent(
+            var isKeyword = (lookups ?? throw new ArgumentNullException(nameof(lookups))).Any(x => x?.ToLower() == "keywords");
+            if (values != null && !isKeyword)
+                throw new Exception($"{nameof(values)} are only allowed if lookup method is keywords.");
+            var get = await RestClient.PutAsync($"entities/{id}", CreateContent(
               new
               {
-                  Id,
-                  doc = Description,
-                  lookups = Lookups,
-                  values = Values
+                  Id = id,
+                  doc = description,
+                  lookups,
+                  values
               }));
-            Process(Get, $"PUT /entities/{Id}");
+            Process(get);
         }
 
         /// <summary>Permanently deletes the entity.</summary>
-        /// <param name="Id">ID or name of the entity.</param>
-        public async Task DeleteAsync(string Id)
-            => Process(await RestClient.DeleteAsync($"entities/{Id}"), $"DELETE /entities/{Id}");
+        /// <param name="id">ID or name of the entity.</param>
+        public async Task DeleteAsync(string id)
+            => Process(await RestClient.DeleteAsync($"entities/{id}"));
 
         /// <summary>Permanently delete the role associated to the entity.</summary>
-        /// <param name="EntityId">ID or name of the entity.</param>
-        /// <param name="RoleId">ID or name of the role associate to the entity.</param>
-        public async Task DeleteRoleAsync(string EntityId, string RoleId)
-            => Process(await RestClient.DeleteAsync($"entities/{EntityId}:{RoleId}"),
-                $"DELETE /entities/{EntityId}:{RoleId}");
+        /// <param name="entityId">ID or name of the entity.</param>
+        /// <param name="roleId">ID or name of the role associate to the entity.</param>
+        public async Task DeleteRoleAsync(string entityId, string roleId)
+            => Process(await RestClient.DeleteAsync($"entities/{entityId}:{roleId}"));
 
         /// <summary>Add a possible value into the list of values for the keyword entity.</summary>
-        /// <param name="Id">ID or name of the entity</param>
-        /// <param name="Value"><see cref="Values"/></param>
-        public async Task<KeywordObject> AddValueAsync(string Id, Values Value)
+        /// <param name="id">ID or name of the entity</param>
+        /// <param name="value"><see cref="Values"/></param>
+        public async Task<KeywordObject> AddValueAsync(string id, Values value)
         {
-            if (string.IsNullOrWhiteSpace(Value.Value))
-                Logger.Logging.Send(exception: new Exception($"{nameof(Value.Value)} can't be null."));
-            var Get = await RestClient.PostAsync($"entities/{Id}/values", CreateContent(Value));
-            return await ProcessAsync<KeywordObject>(Get, $"POST /entities/{Id}/values");
+            if (string.IsNullOrWhiteSpace(value.Value))
+                throw new Exception($"{nameof(value.Value)} can't be null.");
+            var get = await RestClient.PostAsync($"entities/{id}/values", CreateContent(value));
+            return await ProcessAsync<KeywordObject>(get);
         }
 
         /// <summary>Delete a canonical value from the entity</summary>
-        /// <param name="Id">ID or name of the entity</param>
-        /// <param name="Value">Id or name of the value.</param>
-        public async Task DeleteValueAsync(string Id, string Value)
-            => Process(await RestClient.DeleteAsync($"entities/{Id}/values/{Value}"),
-                $"DELETE /entities/{Id}/values/{Value}");
+        /// <param name="id">ID or name of the entity</param>
+        /// <param name="value">Id or name of the value.</param>
+        public async Task DeleteValueAsync(string id, string value)
+            => Process(await RestClient.DeleteAsync($"entities/{id}/values/{value}"));
 
         /// <summary>Create a new expression of the canonical value of the keyword entity</summary>
-        /// <param name="Id">ID or name of the entity</param>
-        /// <param name="Value">Id or name of associated entity value.</param>
-        /// <param name="Expression">new expression for the canonical value of the entity. 
+        /// <param name="id">ID or name of the entity</param>
+        /// <param name="value">Id or name of associated entity value.</param>
+        /// <param name="expression">new expression for the canonical value of the entity. 
         /// Must be shorter than 256 characters.</param>
-        public async Task<KeywordObject> AddExpressionAsync(string Id, string Value, string Expression)
+        public async Task<KeywordObject> AddExpressionAsync(string id, string value, string expression)
         {
-            if (Expression.Length > 256)
-                Logger.Logging.Send(exception: new Exception($"{nameof(Expression)} can't be null."));
-            var Get = await RestClient.PostAsync($"entities/{Id}/values/{Value}/expressions",
-                CreateContent(new { expression = Expression }));
-            return await ProcessAsync<KeywordObject>(Get, $"POST /entities/{Id}/values/{Value}/expressions");
+            if (expression.Length > 256)
+                throw new Exception($"{nameof(expression)}'s length can't be more than 256 characters.");
+            var get = await RestClient.PostAsync($"entities/{id}/values/{value}/expressions",
+                CreateContent(new {expression }));
+            return await ProcessAsync<KeywordObject>(get);
         }
 
         /// <summary>Delete an expression of the canonical value of the entity.</summary>
-        /// <param name="Id">ID or name of the entity</param>
-        /// <param name="Value">Id or name of associated entity value.</param>
-        /// <param name="Expression">new expression for the canonical value of the entity. Must be shorter than 256 characters.</param>
-        public async Task DeleteExpressionAsync(string Id, string Value, string Expression)
-            => Process(await RestClient.DeleteAsync($"entities/{Id}/values/{Value}/expressions/{Expression}"),
-                $"DELETE /entities/{Id}/values/{Value}/expressions");
+        /// <param name="id">ID or name of the entity</param>
+        /// <param name="value">Id or name of associated entity value.</param>
+        /// <param name="expression">new expression for the canonical value of the entity. Must be shorter than 256 characters.</param>
+        public async Task DeleteExpressionAsync(string id, string value, string expression)
+            => Process(await RestClient.DeleteAsync($"entities/{id}/values/{value}/expressions/{expression}"));
     }
 }
