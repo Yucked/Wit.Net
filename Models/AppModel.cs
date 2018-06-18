@@ -1,6 +1,7 @@
-﻿namespace WitSharp.Models
+﻿using Newtonsoft.Json;
+
+namespace WitSharp.Models
 {
-    using Newtonsoft.Json;
     internal class AppModel
     {
         [JsonProperty("name")]

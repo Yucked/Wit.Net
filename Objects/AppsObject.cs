@@ -1,7 +1,8 @@
-﻿namespace WitSharp.Objects
+﻿using System;
+using Newtonsoft.Json;
+
+namespace WitSharp.Objects
 {
-    using System;
-    using Newtonsoft.Json;
     public class AppsObject
     {
         internal AppsObject() { }

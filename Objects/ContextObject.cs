@@ -1,7 +1,8 @@
-﻿namespace WitSharp.Objects
+﻿using System;
+using Newtonsoft.Json;
+
+namespace WitSharp.Objects
 {
-    using System;
-    using Newtonsoft.Json;
     /// <summary>
     ///[Optional] Context is key in natural language. For instance, at the same absolute instant, “today” will be resolved to a different value depending on the timezone of the user.
     /// </summary>

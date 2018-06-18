@@ -3,72 +3,72 @@
     public enum Language
     {
         /// <summary>English</summary>
-        EN,
+        En,
         /// <summary>French</summary>
-        FR,
+        Fr,
         /// <summary>German</summary>
-        GEM,
+        Gem,
         /// <summary>Italian</summary>
-        ITA,
+        Ita,
         /// <summary>Dutch</summary>
-        NL,
+        Nl,
         /// <summary>Spanish</summary>
-        ES,
+        Es,
         /// <summary>Polish</summary>
-        PL,
+        Pl,
         /// <summary>Swedish</summary>
-        SV,
+        Sv,
         /// <summary>Portuguese</summary>
-        PT,
+        Pt,
         /// <summary>Russian</summary>
-        RU,
+        Ru,
 
 
 
         /// <summary>Indonesia</summary>
-        ID,
+        Id,
         /// <summary>Arabic</summary>
-        AR,
+        Ar,
         /// <summary>Turkish</summary>
-        TR,
+        Tr,
         /// <summary>Thai</summary>
-        TH,
+        Th,
         /// <summary>Vietnamese</summary>
-        VI,
+        Vi,
 
         /// <summary>Japanese</summary>
-        JA,
+        Ja,
         /// <summary>Chinese Simplified</summary>
-        ZHCN,
+        Zhcn,
         /// <summary>Chinese Traditional</summary>
-        ZHTW,        
+        Zhtw,        
         /// <summary>Korean</summary>
-        KO,        
+        Ko,        
         /// <summary>Romanian</summary>
-        RO,
+        Ro,
         /// <summary>Hungarian</summary>
-        HU,        
+        Hu,        
         /// <summary>Czech</summary>
-        CS,
+        Cs,
         /// <summary>Hindi</summary>
-        HI,
+        Hi,
         /// <summary>Bengali</summary>
-        BN,
+        Bn,
         /// <summary>Danish</summary>
-        DA,
+        Da,
         /// <summary>Farsi</summary>
-        FA,
+        Fa,
         /// <summary>Flilipino</summary>
-        TL,
+        Tl,
         /// <summary>Finnish</summary>
-        FI,
+        Fi,
         /// <summary>Hebrew</summary>
-        IW,
+        Iw,
         /// <summary>Malay</summary>
-        MS,
+        Ms,
         /// <summary>Norwegian</summary>
-        NO,
+        No,
         /// <summary>Ukrainian</summary>
-        UK
+        Uk
     }
 }

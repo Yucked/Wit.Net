@@ -1,7 +1,8 @@
-﻿namespace WitSharp.Objects
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace WitSharp.Objects
 {
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
     public class KeywordObject
     {
         internal KeywordObject() { }

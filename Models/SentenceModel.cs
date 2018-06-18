@@ -1,6 +1,7 @@
-﻿namespace WitSharp.Models
+﻿using WitSharp.Objects;
+
+namespace WitSharp.Models
 {
-    using WitSharp.Objects;
     public class SentenceModel
     {
         /// <summary>User’s query. Length must be  between 0 and 256</summary>

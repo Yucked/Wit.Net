@@ -1,6 +1,7 @@
-﻿namespace WitSharp.Objects
+﻿using Newtonsoft.Json;
+
+namespace WitSharp.Objects
 {
-    using Newtonsoft.Json;
     public class CreationObject
     {
         internal CreationObject() { }

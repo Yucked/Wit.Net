@@ -1,7 +1,8 @@
-﻿namespace WitSharp.Objects
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace WitSharp.Objects
 {
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
     public class EntityValuesObject
     {
         internal EntityValuesObject() { }
@@ -21,7 +22,7 @@
         public List<Values> Values { get; internal set; }
     }
 
-    public partial class Values
+    public class Values
     {
         internal Values() { }
         [JsonProperty("value")]
