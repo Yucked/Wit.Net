@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Yucked</Authors>
     <Description>⚗️ - A .Net wrapper for https://wit.ai API.</Description>
     <Copyright>2018 Yucked. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/Yucked/WitSharp</PackageProjectUrl>
-    <PackageIconUrl>https://avatars1.githubusercontent.com/u/4723433?s=280&amp;v=4</PackageIconUrl>
+      <PackageIconUrl>https://media.discordapp.net/attachments/253326058630283264/458260513965604875/Untitled-2.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/Yucked/WitSharp</RepositoryUrl>
     <RepositoryType>Open Source</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -14,15 +13,12 @@
     <PackageLicenseUrl>https://gist.github.com/Yucked/63dbf7914e2ab30e656d45cf5c05b50f</PackageLicenseUrl>
     <PackageTags>Wit.ai, Wit, WitSharp, Yucked</PackageTags>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.0\WitSharp.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
-
 </Project>
