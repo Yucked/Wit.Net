@@ -1,14 +1,15 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using WitSharp.Objects;
 
 namespace WitSharp
 {
-    using System;
-    using Objects;
-    using System.Net;
-    using System.Net.Http;
-    using Newtonsoft.Json;    
-    using System.Threading.Tasks;
-    using System.Net.Http.Headers;
     public abstract class Base
     {
         internal HttpClient RestClient { get; }
@@ -16,7 +17,7 @@ namespace WitSharp
         internal Base()
         {
             RestClient = new HttpClient { BaseAddress = new Uri("https://api.wit.ai") };
-            RestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", WitClient.Key);
+            RestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", WitClient.Token);
             RestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             RestClient.DefaultRequestHeaders.Add("Accept", "application/vnd.wit.20200220+json");
         }
@@ -39,7 +40,7 @@ namespace WitSharp
         internal HttpContent CreateContent(object content)
             => new StringContent(JsonConvert.SerializeObject(content,
                 new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }),
-                System.Text.Encoding.UTF8, "application/json");
+                Encoding.UTF8, "application/json");
 
         internal void Process(HttpResponseMessage message)
         {

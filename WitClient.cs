@@ -5,10 +5,14 @@
         public Entities Entities { get; }
         public Training Training { get; }
         public Application Application { get; }
-        internal static Config Config { get; private set; }
-        public WitClient(Config config)
+        internal static string Token { get; private set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accessToken">Your applications access token.</param>
+        public WitClient(string accessToken)
         {
-            Config = config;
+            Token = accessToken;
             Entities = new Entities();
             Training = new Training();
             Application = new Application();
