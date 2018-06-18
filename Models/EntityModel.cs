@@ -1,6 +1,7 @@
-﻿namespace WitSharp.Models
+﻿using Newtonsoft.Json;
+
+namespace WitSharp.Models
 {
-    using Newtonsoft.Json;
     public class EntityModel
     {
         internal EntityModel() { }
