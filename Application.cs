@@ -57,7 +57,7 @@ namespace WitSharp
         /// <param name="isPrivate">Private if true</param>
         /// <param name="timezone">Default timezone of the app. Must be a canonical ID. Example: “America/Los_Angeles”</param>
         /// <param name="description">Short sentence describing your app</param>
-        public async Task UpdateAsync(string id, string name = null, Language? lang = Language.En,
+        public async Task UpdateAsync(string id, string name = null, Language? lang = Language.EN,
             bool? isPrivate = null,
             string timezone = null, string description = "My new Wit application VIA WitSharp!")
         {
