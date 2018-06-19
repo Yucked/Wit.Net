@@ -102,30 +102,105 @@
         /// Serbian
         /// </summary>
         SR,
+        /// <summary>
+        /// Vietnamese
+        /// </summary>
         VI,
+        /// <summary>
+        /// Bengali
+        /// </summary>
         BN,
+        /// <summary>
+        /// Finnish
+        /// </summary>
         FI,
+        /// <summary>
+        /// Korean
+        /// </summary>
         KO,
+        /// <summary>
+        /// Slovak
+        /// </summary>
         SK,
+        /// <summary>
+        /// Bosnian
+        /// </summary>
         BS,
+        /// <summary>
+        /// Georgian
+        /// </summary>
         KA,
+        /// <summary>
+        /// Latin
+        /// </summary>
         LA,
+        /// <summary>
+        /// Slovenian
+        /// </summary>
         SL,
+        /// <summary>
+        /// Bulgarian
+        /// </summary>
         BG,
+        /// <summary>
+        /// Greek
+        /// </summary>
         EL,
+        /// <summary>
+        /// Lithuanian
+        /// </summary>
         LT,
+        /// <summary>
+        /// Swahili
+        /// </summary>
         SW,
+        /// <summary>
+        /// Burmese
+        /// </summary>
         MY,
+        /// <summary>
+        /// Hebrew
+        /// </summary>
         HE,
+        /// <summary>
+        /// Macedonian
+        /// </summary>
         MK,
+        /// <summary>
+        /// Tagalog
+        /// </summary>
         TL,
+        /// <summary>
+        /// Catalan
+        /// </summary>
         CA,
+        /// <summary>
+        /// Hindi
+        /// </summary>
         HI,
+        /// <summary>
+        /// Malay
+        /// </summary>
         MS,
+        /// <summary>
+        /// Tamil
+        /// </summary>
         TA,
+        /// <summary>
+        /// Chinese
+        /// </summary>
         ZH,
+        /// <summary>
+        /// Hungarian
+        /// </summary>
         HU,
+        /// <summary>
+        /// Norwegian
+        /// </summary>
         NO,
+        /// <summary>
+        /// Thai
+        /// </summary>
         TH
     }
 }
