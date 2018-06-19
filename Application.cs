@@ -7,7 +7,9 @@ namespace WitSharp
 {
     public class Application : Base
     {
-        internal Application() { }
+        internal Application()
+        {
+        }
 
         /// <summary>
         /// Returns an array of all apps that you own.
@@ -17,9 +19,10 @@ namespace WitSharp
         public async Task<AppsObject[]> GetAllAsync(int limit, int offset = 0)
         {
             if (limit <= 0 || limit > 10000)
-                throw new Exception($"{nameof(limit)} must be between 1 and 10000 inclusive (recommended max size is 500).");
+                throw new Exception(
+                    $"{nameof(limit)} must be between 1 and 10000 inclusive (recommended max size is 500).");
             if (offset < 0)
-                throw new Exception($"{nameof(offset)} must be >= 0. Default is 0");            
+                throw new Exception($"{nameof(offset)} must be >= 0. Default is 0");
             var get = await RestClient.GetAsync($"apps?offset={offset}&limit={limit}");
             return await ProcessAsync<AppsObject[]>(get);
         }
@@ -54,7 +57,8 @@ namespace WitSharp
         /// <param name="isPrivate">Private if true</param>
         /// <param name="timezone">Default timezone of the app. Must be a canonical ID. Example: “America/Los_Angeles”</param>
         /// <param name="description">Short sentence describing your app</param>
-        public async Task UpdateAsync(string id, string name = null, Language? lang = Language.En, bool? isPrivate = null,
+        public async Task UpdateAsync(string id, string name = null, Language? lang = Language.En,
+            bool? isPrivate = null,
             string timezone = null, string description = "My new Wit application VIA WitSharp!")
         {
             if (lang != null)

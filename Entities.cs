@@ -8,11 +8,14 @@ namespace WitSharp
 {
     public class Entities : Base
     {
-        internal Entities() { }
+        internal Entities()
+        {
+        }
+
         /// <summary>Returns a list of all entities.</summary>
         public async Task<IEnumerable<string>> GetAllAsync()
             => await ProcessAsync<IEnumerable<string>>(await RestClient.GetAsync("entities"));
-        
+
         /// <summary>Creates a new entity.</summary>
         /// <param name="name">ID or name of the requested entity.</param>
         /// <param name="description">Short sentence describing this entity.</param>
@@ -29,31 +32,29 @@ namespace WitSharp
         /// <summary>Returns all the expressions validated for an entity.</summary>
         /// <param name="name">ID or name of the requested entity..</param>
         public async Task<EntityValuesObject> GetAsync(string name)
-            => await ProcessAsync<EntityValuesObject>(await RestClient.GetAsync($"entities/{name}"));        
+            => await ProcessAsync<EntityValuesObject>(await RestClient.GetAsync($"entities/{name}"));
 
-        /// <summary>
-        /// Updates an entity.
-        /// </summary>
+        /// <summary>Updates an entity.</summary>
         /// <param name="id">ID or name of the  entity.</param>
         /// <param name="description">Short sentence describing this entity.</param>
         /// <param name="lookups">Short sentence describing this entity. Current lookup strategies are: free_text, keywords. 
         /// You can add both as well.</param>
         /// <param name="values">Possible values if this is a keyword entity.</param>
-        /// <returns></returns>
         public async Task UpdateAsync(string id, string description = null,
             string[] lookups = null, Values[] values = null)
         {
-            var isKeyword = (lookups ?? throw new ArgumentNullException(nameof(lookups))).Any(x => x?.ToLower() == "keywords");
+            var isKeyword =
+                (lookups ?? throw new ArgumentNullException(nameof(lookups))).Any(x => x?.ToLower() == "keywords");
             if (values != null && !isKeyword)
                 throw new Exception($"{nameof(values)} are only allowed if lookup method is keywords.");
             var get = await RestClient.PutAsync($"entities/{id}", CreateContent(
-              new
-              {
-                  Id = id,
-                  doc = description,
-                  lookups,
-                  values
-              }));
+                new
+                {
+                    Id = id,
+                    doc = description,
+                    lookups,
+                    values
+                }));
             Process(get);
         }
 
@@ -95,7 +96,7 @@ namespace WitSharp
             if (expression.Length > 256)
                 throw new Exception($"{nameof(expression)}'s length can't be more than 256 characters.");
             var get = await RestClient.PostAsync($"entities/{id}/values/{value}/expressions",
-                CreateContent(new {expression }));
+                CreateContent(new {expression}));
             return await ProcessAsync<KeywordObject>(get);
         }
 

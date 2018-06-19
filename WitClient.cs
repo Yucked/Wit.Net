@@ -6,9 +6,8 @@
         public Training Training { get; }
         public Application Application { get; }
         internal static string Token { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
+
+        /// <summary>Initialize a new wit client.</summary>
         /// <param name="accessToken">Your applications access token.</param>
         public WitClient(string accessToken)
         {
@@ -17,6 +16,9 @@
             Training = new Training();
             Application = new Application();
         }
-        internal WitClient() { }
+
+        internal WitClient()
+        {
+        }
     }
 }
