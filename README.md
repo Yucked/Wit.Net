@@ -25,8 +25,3 @@ var Meaning = Client.Training.SentenceMeaningAsync(new SentenceModel {
     }).ConfigureAwait(false);
 Console.WriteLine(Meaning.Entities.Intents.FirstOrDefault().Value);
 ```
-
-> ToDo
-
-- [ ] Audio Support
-- [ ] Languages
