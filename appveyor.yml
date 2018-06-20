@@ -14,10 +14,9 @@ after_build:
 - cmd: dotnet build
 artifacts:
 - path: '**\*.nupkg'
-  name: WitSharp.1.{build}
+  name: WitSharp
 deploy:
 - provider: NuGet
-  server: https://www.nuget.org/api/v2/package
   api_key:
     secure: iZ4sXMiLBYQi2UHPlGgqPvQKMgB8oYlfsOuckZzQ4Zm9GEcdpkRVLNabwfHt0AL9
-  artifact: WitSharp.1.{build}
+  artifact: WitSharp
