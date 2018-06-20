@@ -14,26 +14,17 @@ namespace WitSharp
         internal Training()
         {
         }
-
+        
         /// <summary>Returns the meaning of a sentence.</summary>
         /// <param name="sentence"><see cref="SentenceModel"/></param>
+        /// <exception cref="ArgumentNullException"><param name="sentence"/> was <c>null</c></exception>
         public async Task<MeaningObject> SentenceMeaningAsync(SentenceModel sentence)
         {
             if (sentence == null)
-                throw new NullReferenceException($"{nameof(sentence)} can't be null.");
-            if (string.IsNullOrWhiteSpace(sentence.Message))
-                throw new Exception($"{nameof(sentence.Message)} cannot be null/whitespace.");
-            if (sentence.Message.Length > 256)
-                throw new Exception($"{nameof(sentence.Message)} length cannot be greater than 256.");
-            if (sentence.MaxTraits > 8)
-                throw new Exception($"{nameof(sentence.MaxTraits)} cannot be greater than 8.");
-            if (sentence.MaxTraits < 0)
-                throw new Exception($"{nameof(sentence.MaxTraits)} cannot be less than 0.");
-            var threadId = sentence.ThreadId ?? SnowFlake;
-            var messageId = sentence.MessageId ?? SnowFlake;
+                throw new ArgumentNullException($"{nameof(sentence)} can't be null.");
             var get = await RestClient.GetAsync(
                     $"message?q={sentence.Message}&context={JsonConvert.SerializeObject(sentence.Context ?? DefaultContext)}" +
-                    $"&msg_id={messageId}&thread_id={threadId}&n={sentence.MaxTraits}&verbose={sentence.Verbose}")
+                    $"&msg_id={SnowFlake}&thread_id={SnowFlake}&n={sentence.MaxTraits}&verbose={sentence.Verbose}")
                 .ConfigureAwait(false);
             return await ProcessAsync<MeaningObject>(get);
         }
@@ -43,6 +34,7 @@ namespace WitSharp
         /// <param name="audioFilePath">Path to audio file.</param>
         /// <param name="Context"><see cref="ContextObject"/></param>
         /// <param name="BestOutcomes">The number of n-best outcomes you want to get back. default is 1</param>
+        /// <exception cref="FileNotFoundException">Couldn't find the at <param name="audioFilePath"/> path.</exception>
         public async Task<MeaningObject> SpeechMeaningAsync(AudioType audioType, string audioFilePath,
             ContextObject Context = null, int BestOutcomes = 1)
         {
@@ -65,7 +57,7 @@ namespace WitSharp
                 return await ProcessAsync<MeaningObject>(post);
             }
         }
-        
+
         /// <summary>Returns the meaning extracted from an raw audio file.</summary>
         /// <param name="audioFilePath">Path to audio file.</param>
         /// <param name="encoding"><see cref="Encoding"/></param>
@@ -74,6 +66,7 @@ namespace WitSharp
         /// <param name="endian">big or little (usually little, see: http://en.wikipedia.org/wiki/Comparison_of_instruction_set_architectures#Instruction_sets</param>
         /// <param name="context"><see cref="ContextObject"/></param>
         /// <param name="BestOutcomes">The number of n-best outcomes you want to get back. default is 1</param>
+        /// <exception cref="FileNotFoundException">Couldn't find the at <param name="audioFilePath"/> path.</exception>
         public async Task<MeaningObject> SpeechMeaningAsync(string audioFilePath, Encoding encoding, int bits,
             int rate, string endian, ContextObject context = null, int BestOutcomes = 1)
         {
@@ -100,7 +93,7 @@ namespace WitSharp
         public async Task ValidateSamplesAsync(string text, EntityModel[] entities)
         {
             if (string.IsNullOrWhiteSpace(text) || entities.Length == 0)
-                throw new Exception($"{nameof(text)} or {nameof(entities)} can't be null or empty.");
+                throw new ArgumentNullException($"{nameof(text)} or {nameof(entities)} can't be null or empty.");
             var post = await RestClient.PostAsync("samples", CreateContent(new
             {
                 text,
@@ -110,7 +103,7 @@ namespace WitSharp
         }
 
         /// <summary>Delete validated samples from your app</summary>
-        /// <param name="texts">The text of the sample you would like deleted.</param>
+        /// <param name="texts">The text of the sample you would like to be deleted.</param>
         public async Task DeleteSampleAsync(string[] texts)
         {
             var samples = new List<object>(texts.Length);
