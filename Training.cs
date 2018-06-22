@@ -14,14 +14,14 @@ namespace WitSharp
         internal Training()
         {
         }
-        
+
         /// <summary>Returns the meaning of a sentence.</summary>
         /// <param name="sentence"><see cref="SentenceModel"/></param>
         /// <exception cref="ArgumentNullException"><param name="sentence"/> was <c>null</c></exception>
         public async Task<MeaningObject> SentenceMeaningAsync(SentenceModel sentence)
         {
             if (sentence == null)
-                throw new ArgumentNullException($"{nameof(sentence)} can't be null.");
+                throw new ArgumentNullException(nameof(sentence), "Sentence is a required argument.");
             var get = await RestClient.GetAsync(
                     $"message?q={sentence.Message}&context={JsonConvert.SerializeObject(sentence.Context ?? DefaultContext)}" +
                     $"&msg_id={SnowFlake}&thread_id={SnowFlake}&n={sentence.MaxTraits}&verbose={sentence.Verbose}")
@@ -43,7 +43,9 @@ namespace WitSharp
                 : audioType == AudioType.ULAW
                     ? "audio/ulaw"
                     : "audio/wav";
-            if (!File.Exists(audioFilePath)) throw new FileNotFoundException($"{nameof(audioFilePath)} not found.");
+            if (!File.Exists(audioFilePath))
+                throw new FileNotFoundException(nameof(audioFilePath),
+                    "Please make sure the path to audio file is correct.");
             using (var Stream = File.OpenRead(audioFilePath))
             {
                 var Reader = new BinaryReader(Stream);
@@ -70,7 +72,9 @@ namespace WitSharp
         public async Task<MeaningObject> SpeechMeaningAsync(string audioFilePath, Encoding encoding, int bits,
             int rate, string endian, ContextObject context = null, int BestOutcomes = 1)
         {
-            if (!File.Exists(audioFilePath)) throw new FileNotFoundException($"{nameof(audioFilePath)} not found.");
+            if (!File.Exists(audioFilePath))
+                throw new FileNotFoundException(nameof(audioFilePath),
+                    "Please make sure the path to audio file is correct.");
             using (var Stream = File.OpenRead(audioFilePath))
             {
                 var Reader = new BinaryReader(Stream);
@@ -92,8 +96,11 @@ namespace WitSharp
         /// that you want your app to extract once it is trained.</param>
         public async Task ValidateSamplesAsync(string text, EntityModel[] entities)
         {
-            if (string.IsNullOrWhiteSpace(text) || entities.Length == 0)
-                throw new ArgumentNullException($"{nameof(text)} or {nameof(entities)} can't be null or empty.");
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentNullException(nameof(text),
+                    "Please provide the sentence you want your app to understand.");
+            if (entities.Length == 0)
+                throw new ArgumentNullException(nameof(entities), "At least a single entitiy must be provided.");
             var post = await RestClient.PostAsync("samples", CreateContent(new
             {
                 text,
@@ -106,6 +113,8 @@ namespace WitSharp
         /// <param name="texts">The text of the sample you would like to be deleted.</param>
         public async Task DeleteSampleAsync(string[] texts)
         {
+            if (texts.Length == 0)
+                throw new ArgumentNullException(nameof(texts), "At least a single text must be provided.");
             var samples = new List<object>(texts.Length);
             foreach (var text in texts) samples.Add(new {text});
             var request = new HttpRequestMessage
