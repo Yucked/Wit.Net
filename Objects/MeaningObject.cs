@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace WitSharp.Objects
 {
@@ -26,6 +29,26 @@ namespace WitSharp.Objects
     /// <summary> Provides a list of all intents</summary>
     public class Entities
     {
+        /// <summary>
+        /// Returns true if any of the collection has an item in them.
+        /// </summary>
+        [JsonIgnore]
+        public bool AreCollectionsEmpty
+        {
+            get
+            {
+                var Properties = GetType().GetTypeInfo().GetProperties().Where(x => x.PropertyType != typeof(int));
+                var Count = Properties.Count();
+                foreach (var Prop in Properties)
+                {
+                    var Value = (IList)Prop.GetValue(this, null);
+                    if (Value == null || Value.Count == 0)
+                        Count--;
+                }
+                return Count == 0;
+            }
+        }
+
         [JsonProperty("intent")] public List<Bye> Intent { get; internal set; }
 
         [JsonProperty("age_of_person")] public List<AgeOfPerson> AgeOfPerson { get; internal set; }
