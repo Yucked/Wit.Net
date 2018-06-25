@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Collections;
 
 namespace WitSharp.Objects
 {
@@ -29,106 +26,123 @@ namespace WitSharp.Objects
     /// <summary> Provides a list of all intents</summary>
     public class Entities
     {
-        /// <summary>
-        /// Returns true if any of the collection has an item in them.
-        /// </summary>
-        [JsonIgnore]
-        public bool AreCollectionsEmpty
-        {
-            get
-            {
-                var Properties = GetType().GetTypeInfo().GetProperties().Where(x => x.PropertyType != typeof(int));
-                var Count = Properties.Count();
-                foreach (var Prop in Properties)
-                {
-                    var Value = (IList)Prop.GetValue(this, null);
-                    if (Value == null || Value.Count == 0)
-                        Count--;
-                }
-                return Count == 0;
-            }
-        }
+        internal Entities(){}
+        [JsonProperty("intent")] 
+        public List<CommonEntity> Intent { get; internal set; }
 
-        [JsonProperty("intent")] public List<Bye> Intent { get; internal set; }
+        [JsonProperty("age_of_person")] 
+        public List<CommonEntity> AgeOfPerson { get; internal set; }
 
-        [JsonProperty("age_of_person")] public List<AgeOfPerson> AgeOfPerson { get; internal set; }
+        [JsonProperty("agenda_entry")] 
+        public List<CommonEntity> AgendaEntry { get; internal set; }
 
-        [JsonProperty("agenda_entry")] public List<AgeOfPerson> AgendaEntry { get; internal set; }
+        [JsonProperty("amount_of_money")] 
+        public List<AmountOfMoney> AmountOfMoney { get; internal set; }
 
-        [JsonProperty("amount_of_money")] public List<AmountOfMoney> AmountOfMoney { get; internal set; }
+        [JsonProperty("bye")] 
+        public List<CommonEntity> Bye { get; internal set; }
 
-        [JsonProperty("bye")] public List<Bye> Bye { get; internal set; }
+        [JsonProperty("contact")] 
+        public List<CommonEntity> Contact { get; internal set; }
 
-        [JsonProperty("contact")] public List<AgeOfPerson> Contact { get; internal set; }
+        [JsonProperty("distance")] 
+        public List<AmountOfMoney> Distance { get; internal set; }
 
-        [JsonProperty("distance")] public List<AmountOfMoney> Distance { get; internal set; }
+        [JsonProperty("duration")] 
+        public List<Duration> Duration { get; internal set; }
 
-        [JsonProperty("duration")] public List<Duration> Duration { get; internal set; }
+        [JsonProperty("email")] 
+        public List<CommonEntity> Email { get; internal set; }
 
-        [JsonProperty("email")] public List<Bye> Email { get; internal set; }
+        [JsonProperty("greetings")] 
+        public List<CommonEntity> Greetings { get; internal set; }
 
-        [JsonProperty("greetings")] public List<Bye> Greetings { get; internal set; }
+        [JsonProperty("local_search_query")] 
+        public List<CommonEntity> LocalSearchQuery { get; internal set; }
 
-        [JsonProperty("local_search_query")] public List<AgeOfPerson> LocalSearchQuery { get; internal set; }
+        [JsonProperty("location")] 
+        public List<Location> Location { get; internal set; }
 
-        [JsonProperty("location")] public List<Location> Location { get; internal set; }
+        [JsonProperty("math_expression")] 
+        public List<CommonEntity> MathExpression { get; internal set; }
 
-        [JsonProperty("math_expression")] public List<AgeOfPerson> MathExpression { get; internal set; }
+        [JsonProperty("message_body")] 
+        public List<CommonEntity> MessageBody { get; internal set; }
 
-        [JsonProperty("message_body")] public List<AgeOfPerson> MessageBody { get; internal set; }
+        [JsonProperty("notable_person")] 
+        public List<NotablePerson> NotablePerson { get; internal set; }
 
-        [JsonProperty("notable_person")] public List<NotablePerson> NotablePerson { get; internal set; }
+        [JsonProperty("number")] 
+        public List<Number> Number { get; internal set; }
 
-        [JsonProperty("number")] public List<Number> Number { get; internal set; }
+        [JsonProperty("on_off")] 
+        public List<CommonEntity> OnOff { get; internal set; }
 
-        [JsonProperty("on_off")] public List<Bye> OnOff { get; internal set; }
+        [JsonProperty("ordinal")] 
+        public List<Number> Ordinal { get; internal set; }
 
-        [JsonProperty("ordinal")] public List<Number> Ordinal { get; internal set; }
+        [JsonProperty("phone_number")] 
+        public List<CommonEntity> PhoneNumber { get; internal set; }
 
-        [JsonProperty("phone_number")] public List<Bye> PhoneNumber { get; internal set; }
+        [JsonProperty("phrase_to_translate")] 
+        public List<CommonEntity> PhraseToTranslate { get; internal set; }
 
-        [JsonProperty("phrase_to_translate")] public List<AgeOfPerson> PhraseToTranslate { get; internal set; }
+        [JsonProperty("quantity")] 
+        public List<Quantity> Quantity { get; internal set; }
 
-        [JsonProperty("quantity")] public List<Quantity> Quantity { get; internal set; }
+        [JsonProperty("reminder")] 
+        public List<CommonEntity> Reminder { get; internal set; }
 
-        [JsonProperty("reminder")] public List<AgeOfPerson> Reminder { get; internal set; }
+        [JsonProperty("search_query")] 
+        public List<CommonEntity> SearchQuery { get; internal set; }
 
-        [JsonProperty("search_query")] public List<AgeOfPerson> SearchQuery { get; internal set; }
+        [JsonProperty("sentiment")] 
+        public List<CommonEntity> Sentiment { get; internal set; }
 
-        [JsonProperty("sentiment")] public List<Bye> Sentiment { get; internal set; }
+        [JsonProperty("temperature")] 
+        public List<AmountOfMoney> Temperature { get; internal set; }
 
-        [JsonProperty("temperature")] public List<AmountOfMoney> Temperature { get; internal set; }
+        [JsonProperty("thanks")] 
+        public List<CommonEntity> Thanks { get; internal set; }
 
-        [JsonProperty("thanks")] public List<Bye> Thanks { get; internal set; }
+        [JsonProperty("url")] 
+        public List<Url> Url { get; internal set; }
 
-        [JsonProperty("url")] public List<Url> Url { get; internal set; }
-
-        [JsonProperty("volume")] public List<Number> Volume { get; internal set; }
+        [JsonProperty("volume")] 
+        public List<Number> Volume { get; internal set; }
 
         [JsonProperty("wikipedia_search_query")]
-        public List<AgeOfPerson> WikipediaSearchQuery { get; internal set; }
+        public List<CommonEntity> WikipediaSearchQuery { get; internal set; }
 
-        [JsonProperty("wolfram_search_query")] public List<AgeOfPerson> WolframSearchQuery { get; internal set; }
+        [JsonProperty("wolfram_search_query")] 
+        public List<CommonEntity> WolframSearchQuery { get; internal set; }
 
-        [JsonProperty("datetime")] public List<Datetime> Datetime { get; internal set; }
+        [JsonProperty("datetime")] 
+        public List<Datetime> Datetime { get; internal set; }
     }
 
-    public class AgeOfPerson
+    public class CommonEntity
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("value")] public string Value { get; internal set; }
+        [JsonProperty("value")] 
+        public string Value { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        public string Type { get; internal set; }
     }
 
     public class AmountOfMoney
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
 
-        [JsonProperty("unit")] public string Unit { get; internal set; }
+        [JsonProperty("unit")] 
+        public string Unit { get; internal set; }
 
         [JsonProperty("to", NullValueHandling = NullValueHandling.Ignore)]
         public NormalizedClass To { get; internal set; }
@@ -136,45 +150,49 @@ namespace WitSharp.Objects
         [JsonProperty("from")] public NormalizedClass From { get; internal set; }
 
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Value { get; internal set; }
+        public int? Value { get; internal set; }
     }
 
     public class NormalizedClass
     {
-        [JsonProperty("value")] public long Value { get; internal set; }
+        [JsonProperty("value")] 
+        public int Value { get; internal set; }
 
-        [JsonProperty("unit")] public string Unit { get; internal set; }
-    }
-
-    public class Bye
-    {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
-
-        [JsonProperty("value")] public string Value { get; internal set; }
+        [JsonProperty("unit")] 
+        public string Unit { get; internal set; }
     }
 
     public class Datetime
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("values")] public List<DatetimeValue> Values { get; internal set; }
+        [JsonProperty("values")] 
+        public List<DatetimeValue> Values { get; internal set; }
 
-        [JsonProperty("to")] public DatetimeFrom To { get; internal set; }
+        [JsonProperty("to")] 
+        public DatetimeFrom To { get; internal set; }
 
-        [JsonProperty("from")] public DatetimeFrom From { get; internal set; }
+        [JsonProperty("from")] 
+        public DatetimeFrom From { get; internal set; }
 
-        [JsonProperty("value")] public DateTimeOffset Value { get; internal set; }
+        [JsonProperty("value")] 
+        public DateTimeOffset Value { get; internal set; }
 
-        [JsonProperty("grain")] public string Grain { get; internal set; }
+        [JsonProperty("grain")] 
+        public string Grain { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
     }
 
     public class DatetimeFrom
     {
-        [JsonProperty("value")] public DateTimeOffset Value { get; internal set; }
+        [JsonProperty("value")] 
+        public DateTimeOffset Value { get; internal set; }
 
-        [JsonProperty("grain")] public string Grain { get; internal set; }
+        [JsonProperty("grain")] 
+        public string Grain { get; internal set; }
     }
 
     public class DatetimeValue
@@ -185,7 +203,8 @@ namespace WitSharp.Objects
         [JsonProperty("grain", NullValueHandling = NullValueHandling.Ignore)]
         public string Grain { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
 
         [JsonProperty("to", NullValueHandling = NullValueHandling.Ignore)]
         public DatetimeFrom To { get; internal set; }
@@ -196,92 +215,122 @@ namespace WitSharp.Objects
 
     public class Duration
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("second")] public long Second { get; internal set; }
+        [JsonProperty("second")]
+        public int Second { get; internal set; }
 
-        [JsonProperty("value")] public long Value { get; internal set; }
+        [JsonProperty("value")] 
+        public int Value { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
 
-        [JsonProperty("unit")] public string Unit { get; internal set; }
+        [JsonProperty("unit")] 
+        public string Unit { get; internal set; }
 
-        [JsonProperty("normalized")] public NormalizedClass Normalized { get; internal set; }
+        [JsonProperty("normalized")] 
+        public NormalizedClass Normalized { get; internal set; }
     }
 
     public class Location
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("value")] public string Value { get; internal set; }
+        [JsonProperty("value")]
+        public string Value { get; internal set; }
 
-        [JsonProperty("resolved")] public Resolved Resolved { get; internal set; }
+        [JsonProperty("resolved")] 
+        public Resolved Resolved { get; internal set; }
     }
 
     public class Resolved
     {
-        [JsonProperty("values")] public List<ResolvedValue> Values { get; internal set; }
+        [JsonProperty("values")] 
+        public List<ResolvedValue> Values { get; internal set; }
     }
 
     public class ResolvedValue
     {
-        [JsonProperty("name")] public string Name { get; internal set; }
+        [JsonProperty("name")] 
+        public string Name { get; internal set; }
 
-        [JsonProperty("grain")] public string Grain { get; internal set; }
+        [JsonProperty("grain")] 
+        public string Grain { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
 
-        [JsonProperty("timezone")] public string Timezone { get; internal set; }
+        [JsonProperty("timezone")] 
+        public string Timezone { get; internal set; }
 
-        [JsonProperty("coords")] public Coords Coords { get; internal set; }
+        [JsonProperty("coords")] 
+        public Coords Coords { get; internal set; }
 
-        [JsonProperty("external")] public PurpleExternal External { get; internal set; }
+        [JsonProperty("external")] 
+        public PurpleExternal External { get; internal set; }
     }
 
     public class Coords
     {
-        [JsonProperty("lat")] public double Lat { get; internal set; }
+        [JsonProperty("lat")] 
+        public double Latitude { get; internal set; }
 
-        [JsonProperty("long")] public double Long { get; internal set; }
+        [JsonProperty("long")] 
+        public double Longitude { get; internal set; }
     }
 
     public class PurpleExternal
     {
-        [JsonProperty("geonames")] public string Geonames { get; internal set; }
+        [JsonProperty("geonames")] 
+        public string Geonames { get; internal set; }
 
-        [JsonProperty("wikipedia")] public string Wikipedia { get; internal set; }
+        [JsonProperty("wikipedia")] 
+        public string Wikipedia { get; internal set; }
     }
 
     public class NotablePerson
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("value")] public NotablePersonValue Value { get; internal set; }
+        [JsonProperty("value")] 
+        public NotablePersonValue Value { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
     }
 
     public class NotablePersonValue
     {
-        [JsonProperty("name")] public string Name { get; internal set; }
+        [JsonProperty("name")] 
+        public string Name { get; internal set; }
 
-        [JsonProperty("external")] public FluffyExternal External { get; internal set; }
+        [JsonProperty("external")] 
+        public FluffyExternal External { get; internal set; }
     }
 
     public class FluffyExternal
     {
-        [JsonProperty("wikidata")] public string Wikidata { get; internal set; }
+        [JsonProperty("wikidata")] 
+        public string Wikidata { get; internal set; }
 
-        [JsonProperty("wikipedia")] public string Wikipedia { get; internal set; }
+        [JsonProperty("wikipedia")] 
+        public string Wikipedia { get; internal set; }
     }
 
     public class Number
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")]
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("value")] public long Value { get; internal set; }
+        [JsonProperty("value")] 
+        public int Value { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
 
         [JsonProperty("unit", NullValueHandling = NullValueHandling.Ignore)]
         public string Unit { get; internal set; }
@@ -289,35 +338,47 @@ namespace WitSharp.Objects
 
     public class Quantity
     {
-        [JsonProperty("confidence")] public long Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public int Confidence { get; internal set; }
 
-        [JsonProperty("value")] public long Value { get; internal set; }
+        [JsonProperty("value")] 
+        public int Value { get; internal set; }
 
-        [JsonProperty("type")] public string Type { get; internal set; }
+        [JsonProperty("type")] 
+        public string Type { get; internal set; }
 
-        [JsonProperty("product")] public string Product { get; internal set; }
+        [JsonProperty("product")] 
+        public string Product { get; internal set; }
 
-        [JsonProperty("unit")] public string Unit { get; internal set; }
+        [JsonProperty("unit")] 
+        public string Unit { get; internal set; }
 
-        [JsonProperty("from")] public QuantityFrom From { get; internal set; }
+        [JsonProperty("from")] 
+        public QuantityFrom From { get; internal set; }
     }
 
     public class QuantityFrom
     {
-        [JsonProperty("value")] public long Value { get; internal set; }
+        [JsonProperty("value")] 
+        public int Value { get; internal set; }
 
-        [JsonProperty("product")] public string Product { get; internal set; }
+        [JsonProperty("product")] 
+        public string Product { get; internal set; }
 
-        [JsonProperty("unit")] public string Unit { get; internal set; }
+        [JsonProperty("unit")] 
+        public string Unit { get; internal set; }
     }
 
     public class Url
     {
-        [JsonProperty("confidence")] public double Confidence { get; internal set; }
+        [JsonProperty("confidence")] 
+        public double Confidence { get; internal set; }
 
-        [JsonProperty("domain")] public string Domain { get; internal set; }
+        [JsonProperty("domain")] 
+        public string Domain { get; internal set; }
 
-        [JsonProperty("value")] public string Value { get; internal set; }
+        [JsonProperty("value")] 
+        public string Value { get; internal set; }
     }
 
     public class Stats
