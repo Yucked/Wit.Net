@@ -13,7 +13,7 @@ namespace WitSharp
         /// Initialize a new instance of WitClient. Inject it.
         /// </summary>
         /// <param name="accessToken">Your application's access token.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"><param name="accessToken"> is <c>null</c></param></exception>
         public WitClient(string accessToken)
         {
             if (string.IsNullOrWhiteSpace(accessToken))
