@@ -46,13 +46,13 @@ namespace WitSharp
         internal void Process(HttpResponseMessage message)
         {
             if (!message.IsSuccessStatusCode)
-                throw new Exception($"HTTP ({message.StatusCode}): {Response(message.StatusCode)}");
+                throw new HttpRequestException($"HTTP ({message.StatusCode}): {Response(message.StatusCode)}");
         }
 
         internal async Task<T> ProcessAsync<T>(HttpResponseMessage message)
         {
             if (!message.IsSuccessStatusCode)
-                throw new Exception($"HTTP ({message.StatusCode}): {Response(message.StatusCode)}");
+                throw new HttpRequestException($"HTTP ({message.StatusCode}): {Response(message.StatusCode)}");
 
             return JsonConvert.DeserializeObject<T>(await message.Content.ReadAsStringAsync(),
                 new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});

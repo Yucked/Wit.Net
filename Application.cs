@@ -19,10 +19,10 @@ namespace WitSharp
         public async Task<AppsObject[]> GetAllAsync(int limit, int offset = 0)
         {
             if (limit <= 0 || limit > 10000)
-                throw new Exception(
-                    $"{nameof(limit)} must be between 1 and 10000 inclusive (recommended max size is 500).");
+                throw new ArgumentOutOfRangeException(nameof(limit),
+                    "Value must be between 1 and 10000 inclusive (recommended max size is 500).");
             if (offset < 0)
-                throw new Exception($"{nameof(offset)} must be >= 0. Default is 0");
+                throw new ArgumentOutOfRangeException(nameof(offset), "Must be >= 0. Default is 0");
             var get = await RestClient.GetAsync($"apps?offset={offset}&limit={limit}");
             return await ProcessAsync<AppsObject[]>(get);
         }
@@ -30,21 +30,12 @@ namespace WitSharp
         /// <summary>
         /// Creates a new app for an existing user.
         /// </summary>
-        /// <param name="name">Name of the new app.</param>
-        /// <param name="lang"></param>
-        /// <param name="isPrivate">Private if “true”</param>
-        /// <param name="description">Short sentence describing your app.</param>
-        public async Task<CreationObject> CreateAsync(string name, Language lang, bool isPrivate,
-            string description = "My new Wit application VIA WitSharp!")
+        /// <param name="applicationInfo"><see cref="applicationInfo"/></param>
+        public async Task<CreationObject> CreateAsync(AppModel applicationInfo)
         {
-            var data = new AppModel
-            {
-                Description = description,
-                IsPrivate = isPrivate,
-                Language = lang.ToString(),
-                Name = name
-            };
-            var post = await RestClient.PostAsync("apps", CreateContent(data));
+            if (applicationInfo == null)
+                throw new ArgumentNullException(nameof(applicationInfo));
+            var post = await RestClient.PostAsync("apps", CreateContent(applicationInfo));
             return await ProcessAsync<CreationObject>(post);
         }
 
@@ -52,27 +43,14 @@ namespace WitSharp
         /// Updates an existing application.
         /// </summary>
         /// <param name="id">The ID of the application.</param>
-        /// <param name="name">Name of the new app.</param>
-        /// <param name="lang">Language code</param>
-        /// <param name="isPrivate">Private if true</param>
-        /// <param name="timezone">Default timezone of the app. Must be a canonical ID. Example: “America/Los_Angeles”</param>
-        /// <param name="description">Short sentence describing your app</param>
-        public async Task UpdateAsync(string id, string name = null, Language? lang = Language.En,
-            bool? isPrivate = null,
-            string timezone = null, string description = "My new Wit application VIA WitSharp!")
+        /// <param name="applicationInfo"><see cref="applicationInfo"/></param>
+        public async Task UpdateAsync(string id, AppModel applicationInfo)
         {
-            if (lang != null)
-            {
-                var put = await RestClient.PutAsync($"apps/{id}", CreateContent(new AppModel
-                {
-                    Name = name,
-                    Timezone = timezone,
-                    Description = description,
-                    IsPrivate = isPrivate != null && isPrivate.Value,
-                    Language = lang.Value.ToString()
-                }));
-                Process(put);
-            }
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException(nameof(id));
+            if (applicationInfo == null)
+                throw new ArgumentNullException(nameof(applicationInfo));
+            Process(await RestClient.PutAsync($"apps/{id}", CreateContent(applicationInfo)));
         }
 
         /// <summary>
@@ -80,6 +58,10 @@ namespace WitSharp
         /// </summary>
         /// <param name="id">The ID of the application.</param>
         public async Task DeleteAsync(string id)
-            => Process(await RestClient.DeleteAsync($"apps/{id}"));
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException(nameof(id));
+            Process(await RestClient.DeleteAsync($"apps/{id}"));
+        }
     }
 }
