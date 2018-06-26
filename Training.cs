@@ -32,30 +32,30 @@ namespace WitSharp
         /// <summary>Returns the meaning extracted from an audio file.</summary>
         /// <param name="audioType">What kind of audio is it.</param>
         /// <param name="audioFilePath">Path to audio file.</param>
-        /// <param name="Context"><see cref="ContextObject"/></param>
-        /// <param name="BestOutcomes">The number of n-best outcomes you want to get back. default is 1</param>
+        /// <param name="context"><see cref="ContextObject"/></param>
+        /// <param name="bestOutcomes">The number of n-best outcomes you want to get back. default is 1</param>
         /// <exception cref="FileNotFoundException">Couldn't find the at <param name="audioFilePath"/> path.</exception>
         public async Task<MeaningObject> SpeechMeaningAsync(AudioType audioType, string audioFilePath,
-            ContextObject Context = null, int BestOutcomes = 1)
+            ContextObject context = null, int bestOutcomes = 1)
         {
-            var audioHeaders = audioType == AudioType.MPEG3
+            var audioHeaders = audioType == AudioType.Mpeg3
                 ? "audio/mpeg3"
-                : audioType == AudioType.ULAW
+                : audioType == AudioType.Ulaw
                     ? "audio/ulaw"
                     : "audio/wav";
             if (!File.Exists(audioFilePath))
                 throw new FileNotFoundException(nameof(audioFilePath),
                     "Please make sure the path to audio file is correct.");
-            using (var Stream = File.OpenRead(audioFilePath))
+            using (var stream = File.OpenRead(audioFilePath))
             {
-                var Reader = new BinaryReader(Stream);
-                var Content = new ByteArrayContent(Reader.ReadBytes((int) Stream.Length));
-                Content.Headers.Remove("Content-Type");
-                Content.Headers.Add("Transfer-Encoding", "chunked");
-                Content.Headers.Add("Content-Type", audioHeaders);
+                var reader = new BinaryReader(stream);
+                var content = new ByteArrayContent(reader.ReadBytes((int) stream.Length));
+                content.Headers.Remove("Content-Type");
+                content.Headers.Add("Transfer-Encoding", "chunked");
+                content.Headers.Add("Content-Type", audioHeaders);
                 var post = await RestClient.PostAsync(
-                    $"speech?context={Context ?? DefaultContext}&msg_id={SnowFlake}&" +
-                    $"thread_id={SnowFlake}&n={BestOutcomes}", Content);
+                    $"speech?context={context ?? DefaultContext}&msg_id={SnowFlake}&" +
+                    $"thread_id={SnowFlake}&n={bestOutcomes}", content);
                 return await ProcessAsync<MeaningObject>(post);
             }
         }
@@ -67,25 +67,25 @@ namespace WitSharp
         /// <param name="rate">An integer value like 8000.</param>
         /// <param name="endian">big or little (usually little, see: http://en.wikipedia.org/wiki/Comparison_of_instruction_set_architectures#Instruction_sets</param>
         /// <param name="context"><see cref="ContextObject"/></param>
-        /// <param name="BestOutcomes">The number of n-best outcomes you want to get back. default is 1</param>
+        /// <param name="bestOutcomes">The number of n-best outcomes you want to get back. default is 1</param>
         /// <exception cref="FileNotFoundException">Couldn't find the at <param name="audioFilePath"/> path.</exception>
         public async Task<MeaningObject> SpeechMeaningAsync(string audioFilePath, Encoding encoding, int bits,
-            int rate, string endian, ContextObject context = null, int BestOutcomes = 1)
+            int rate, string endian, ContextObject context = null, int bestOutcomes = 1)
         {
             if (!File.Exists(audioFilePath))
                 throw new FileNotFoundException(nameof(audioFilePath),
                     "Please make sure the path to audio file is correct.");
-            using (var Stream = File.OpenRead(audioFilePath))
+            using (var stream = File.OpenRead(audioFilePath))
             {
-                var Reader = new BinaryReader(Stream);
-                var Content = new ByteArrayContent(Reader.ReadBytes((int) Stream.Length));
-                Content.Headers.Remove("Content-Type");
-                Content.Headers.Add("Transfer-Encoding", "chunked");
-                Content.Headers.Add("Content-Type",
+                var reader = new BinaryReader(stream);
+                var content = new ByteArrayContent(reader.ReadBytes((int) stream.Length));
+                content.Headers.Remove("Content-Type");
+                content.Headers.Add("Transfer-Encoding", "chunked");
+                content.Headers.Add("Content-Type",
                     $"audio/raw;encoding={encoding.ToString().Replace('_', '-').ToLower()};bits={bits};rate={rate};endian={endian}");
                 var post = await RestClient.PostAsync(
                     $"speech?context={context ?? DefaultContext}&msg_id={SnowFlake}&" +
-                    $"thread_id={SnowFlake}&n={BestOutcomes}", Content);
+                    $"thread_id={SnowFlake}&n={bestOutcomes}", content);
                 return await ProcessAsync<MeaningObject>(post);
             }
         }
@@ -94,6 +94,7 @@ namespace WitSharp
         /// <param name="text">The text (sentence) you want your app to understand.</param>
         /// <param name="entities">The list of entities appearing in this sentence, 
         /// that you want your app to extract once it is trained.</param>
+        /// <exception cref="ArgumentNullException"><param name="text"/><param name="entities"/></exception>
         public async Task ValidateSamplesAsync(string text, EntityModel[] entities)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -111,6 +112,7 @@ namespace WitSharp
 
         /// <summary>Delete validated samples from your app</summary>
         /// <param name="texts">The text of the sample you would like to be deleted.</param>
+        /// <exception cref="ArgumentNullException"><param name="texts"/> cannot be empty.</exception>
         public async Task DeleteSampleAsync(string[] texts)
         {
             if (texts.Length == 0)
